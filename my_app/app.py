@@ -1,17 +1,18 @@
+from tkinter import CENTER
 from shiny import App, render, ui
+from shinywidgets import output_widget, register_widget, reactive_read
+import ipyleaflet as L
 
 app_ui = ui.page_fluid(
-    ui.h2(""),
-    ui.input_slider("n", "N", 0, 100, 20),
-    ui.output_text_verbatim("txt"),
+    ui.panel_title("Optamization App"),
+    output_widget("map")
+
 )
 
 
 def server(input, output, session):
-    @output
-    @render.text
-    def txt():
-        return f"n*2 is {input.n() * 2}"
-
+    # Initialize map
+    map = L.Map(center=(32.2540,-110.9742), zoom=12, scroll_wheel_zoom=True)
+    register_widget("map", map)
 
 app = App(app_ui, server)
