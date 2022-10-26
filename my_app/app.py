@@ -4,6 +4,7 @@ from shinywidgets import output_widget, register_widget, reactive_read
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
+import calculations
 
 app_ui = ui.page_fluid(
     ui.panel_title("Capstone"),
