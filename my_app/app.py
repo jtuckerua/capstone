@@ -68,7 +68,8 @@ def server(input, output, session):
     @reactive.event(input.predict)
     # This function is used to display data that is returned from the db
     async def results():
-        # vals = [input.age(), input.fam(), input.sal()]
+        vals = [input.age(), input.fam(), input.sal()]
+        print(calcs.calc_values(vals))
         await asyncio.sleep(2)
         return f"Age: {input.age()}"
     #output and render.plot need to be called before every plot for it to load.
