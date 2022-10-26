@@ -1,10 +1,12 @@
+from logging import PlaceHolder
 from tkinter import CENTER
-from shiny import App, render, ui
+from shiny import App, render, ui, reactive
 from shinywidgets import output_widget, register_widget, reactive_read
+import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-import calculations
+import calculations as calcs
 
 app_ui = ui.page_fluid(
     ui.panel_title("Capstone"),
@@ -36,6 +38,8 @@ app_ui = ui.page_fluid(
             #Input slider allows for a dynamically changing input that can be used in plots etc.
             #Takes the same parameters as numeric input but you can add a prefix or suffix to the value with "pre" or "post".
             ui.input_slider("dis", "Distance", value=1, min=1, max=1000, step=100, post="mi"),
+            ui.input_action_button("predict","Predict"),
+            ui.output_text_verbatim("results", placeholder=True)
         ),
         #panel_main creates the main panel for UI elements to be placed in to the right of the sidebar.
         ui.panel_main(
@@ -49,10 +53,8 @@ app_ui = ui.page_fluid(
             ui.row(
                 ui.column(6, ui.output_plot("plot_2")),
                 ui.column(6, ui.output_plot("plot_3")),
-            ),
-            
-           
-    ),  
+            ),      
+        ),  
     ),
 )
 
@@ -61,6 +63,14 @@ def server(input, output, session):
     # Initialize map
     map = L.Map(center=(32.2540,-110.9742), zoom=12, scroll_wheel_zoom=True)
     register_widget("map", map)
+    @output
+    @render.text
+    @reactive.event(input.predict)
+    # This function is used to display data that is returned from the db
+    async def results():
+        # vals = [input.age(), input.fam(), input.sal()]
+        await asyncio.sleep(2)
+        return f"Age: {input.age()}"
     #output and render.plot need to be called before every plot for it to load.
     @output
     @render.plot(alt="Test")
