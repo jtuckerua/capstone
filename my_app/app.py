@@ -3,6 +3,7 @@ from tkinter import CENTER
 from shiny import App, render, ui, reactive
 from shinywidgets import output_widget, register_widget, reactive_read
 import asyncio
+import websockets
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
@@ -102,4 +103,21 @@ def server(input, output, session):
         ax.hist(x, input.dis(), density=True)
         return fig
 
+
+async def echo(websocket):
+    async for message in websocket:
+        await websocket.send(message)
+
+
+
 app = App(app_ui, server)
+
+# run websocket server forever
+asyncio.get_event_loop().run_until_complete(websockets.serve(echo, "localhost", 8000))
+
+# run shiny app forever
+app.run_server(debug=True)
+
+# connect front end to backend API
+app.connect("ws://localhost:8000")
+
