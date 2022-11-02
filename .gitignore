@@ -1,3 +1,5 @@
 city_market_tracker.tsv
 my_app/Data/cleaner.ipynb
-*.csv
+my_app/Data/*.csv
+my_app/__pycache__?*
+venv/*

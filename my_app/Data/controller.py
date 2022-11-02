@@ -27,7 +27,12 @@ def tbl_names():
 
     cur.close()
     conn.close()
-
     return data
+
+def get_query():
+  """
+  This function will create unique queries
+  """
+  pass
 
 
