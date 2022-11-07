@@ -3,3 +3,4 @@ my_app/Data/cleaner.ipynb
 my_app/Data/*.csv
 my_app/__pycache__?*
 venv/*
+.DS_Store
