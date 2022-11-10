@@ -25,10 +25,12 @@ app_ui = ui.page_fluid(
     ui.row(
         ui.page_navbar(*nav_controls("page_navbar"), title="Capstone", bg="#0062cc", inverse=True, id="navbar_id",
     footer=ui.div(
-        ui.column(3, output_widget("map")),
-        ui.column(3, ui.output_plot("plot")),
-        ui.column(3, ui.output_plot("plot_2")),
-        ui.column(3, ui.output_plot("plot_3")),
+        ui.row(
+            ui.column(3, output_widget("map")),
+            ui.column(3, ui.output_plot("plot")),
+            ui.column(3, ui.output_plot("plot_2")),
+            ui.column(3, ui.output_plot("plot_3")),
+        ),
     ))),
     ui.row(
         ui.input_select("industry", "Job Industry", ["Doctor", "Nurse", "EMT", "Server", "Bartender", "Janitor","Financial Advisor", "Accountant", "Stock Broker"], width='25px'),
