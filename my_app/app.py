@@ -8,21 +8,28 @@ import matplotlib.pyplot as plt
 import numpy as np
 import calculations as calcs
 
+def nav_controls(prefix):
+    return [
+        ui.nav("City A", prefix + ": tab a content"),
+        ui.nav("City B", prefix + ": tab b content"),
+        ui.nav("City C", prefix + ": tab c content"),
+    ]
+
+    
 app_ui = ui.page_fluid(
     # create a user interface that features a horizontal navbar that contains a title and a button
     # in the middle of the title and the button will be 3 text boxes that will be used to input data
     # and two dropdown menus that will be used to select data from the database
     # the navbar will also have a slider that will be used to change the size of the plots
-    ui.page_navbar(title='Capstone', fluid=True),
     #Row tells shiny that these UI elements should be next to eachother horizontally.
     ui.row(
-        #Column takes a size value telling shiny how much space in each row each element should occupy out of a total of 12.
-        #The other parameter is for ui elements to place within the column.
+        ui.page_navbar(*nav_controls("page_navbar"), title="Capstone", bg="#0062cc", inverse=True, id="navbar_id",
+    footer=ui.div(
         ui.column(3, output_widget("map")),
         ui.column(3, ui.output_plot("plot")),
         ui.column(3, ui.output_plot("plot_2")),
         ui.column(3, ui.output_plot("plot_3")),
-    ),   
+    ))),
     ui.row(
         ui.input_select("industry", "Job Industry", ["Doctor", "Nurse", "EMT", "Server", "Bartender", "Janitor","Financial Advisor", "Accountant", "Stock Broker"], width='25px'),
         ui.input_select("goal", "Financial Goal", ["Buy a home", "Save money","Pay off debt", "Retire"], width='25px'),
