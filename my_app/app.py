@@ -12,6 +12,7 @@ app_ui = ui.page_fluid(
     ui.panel_title("Capstone"),
     #Creating sidebar for inputs
     ui.layout_sidebar(
+    
         ui.panel_sidebar(
             #Creating different input fields
             #Numeric input field takes id(str), label, initial value, min, max, step, and width as parameters.
