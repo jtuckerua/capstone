@@ -1,5 +1,6 @@
 from logging import PlaceHolder
 from tkinter import CENTER
+from turtle import width
 from shiny import App, render, ui, reactive
 from shinywidgets import output_widget, register_widget, reactive_read
 import asyncio
@@ -8,56 +9,43 @@ import matplotlib.pyplot as plt
 import numpy as np
 import calculations as calcs
 
-app_ui = ui.page_fluid(
-    ui.panel_title("Capstone"),
-    #Creating sidebar for inputs
-    ui.layout_sidebar(
+def nav_controls(prefix):
+    return [
+        ui.nav("City A", prefix + ": tab a content"),
+        ui.nav("City B", prefix + ": tab b content"),
+        ui.nav("City C", prefix + ": tab c content"),
+    ]
+
     
-        ui.panel_sidebar(
-            #Creating different input fields
-            #Numeric input field takes id(str), label, initial value, min, max, step, and width as parameters.
-            #Only the id, label, and initial value are necessary, rest are optional.
-            ui.input_numeric("age", "Age", 21, min=1, max=100),
-            ui.input_numeric("fam", "Family Size", 1, min=1, max=50),
-            ui.input_numeric("sal", "Salary", 0),
-            #Input select creates a dropdown list of selections.
-            #Parameters: "id" = input id, "label" = input label, "choices" = either a list, dictionary or tuple of choices.
-            #Optionally you can set the initial selection with "selected", and whether multiple selections can be made with "multiple"
-            ui.input_select(
-                "industry",
-                "Choose your industry:",
-                choices=["Doctor", "Nurse", "EMT", "Server", "Bartender", "Janitor","Financial Advisor", "Accountant", "Stock Broker"]
-            ),
-            ui.input_numeric("sav", "Current Savings", 0),
-            ui.input_numeric("debt", "Current Debt", 0),
-            ui.input_select(
-                "goal",
-                "Choose your financial goal:",
-                choices=["Buy a home", "Save money","Pay off debt", "Retire"]
-            ),
-            #Desired distance from current place for moving reccomendations
-            #Input slider allows for a dynamically changing input that can be used in plots etc.
-            #Takes the same parameters as numeric input but you can add a prefix or suffix to the value with "pre" or "post".
-            ui.input_slider("dis", "Distance", value=1, min=1, max=1000, step=100, post="mi"),
-            ui.input_action_button("predict","Predict"),
-            ui.output_text_verbatim("results", placeholder=True)
+app_ui = ui.page_fluid(
+    # create a user interface that features a horizontal navbar that contains a title and a button
+    # in the middle of the title and the button will be 3 text boxes that will be used to input data
+    # and two dropdown menus that will be used to select data from the database
+    # the navbar will also have a slider that will be used to change the size of the plots
+    #Row tells shiny that these UI elements should be next to eachother horizontally.
+    ui.row(
+        ui.page_navbar(*nav_controls("page_navbar"), title="Capstone", bg="#0062cc", inverse=True, id="navbar_id",
+    footer=ui.div(
+        ui.row(
+            ui.column(3, output_widget("map")),
+            ui.column(3, ui.output_plot("plot")),
+            ui.column(3, ui.output_plot("plot_2")),
+            ui.column(3, ui.output_plot("plot_3")),
         ),
-        #panel_main creates the main panel for UI elements to be placed in to the right of the sidebar.
-        ui.panel_main(
-            #Row tells shiny that these UI elements should be next to eachother horizontally.
-            ui.row(
-                #Column takes a size value telling shiny how much space in each row each element should occupy out of a total of 12.
-                #The other parameter is for ui elements to place within the column.
-                ui.column(6, output_widget("map")),
-                ui.column(6, ui.output_plot("plot")),
-            ),
-            ui.row(
-                ui.column(6, ui.output_plot("plot_2")),
-                ui.column(6, ui.output_plot("plot_3")),
-            ),      
-        ),  
+    ))),
+    ui.row(
+        ui.input_select("goal", "Financial Goal", ["Buy a home", "Save money","Pay off debt", "Retire"], width='20%'),
+        ui.input_select("industry", "Job Industry", ["Doctor", "Nurse", "EMT", "Server", "Bartender", "Janitor","Financial Advisor", "Accountant", "Stock Broker"], width='20%'),
+        ui.input_numeric("sal", "Salary", 10000, min=10000, max=1000000, width='10%'),
+        ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
+        ui.input_numeric("fam", "Family #", 1, min=1, max=10, width='10%'),
+        ui.input_slider("dis", "Distance", value=1, min=1, max=1000, step=50, post="mi", width='20%'),
+        ui.input_action_button("predict","Predict", width='10%'),
+        ui.output_text_verbatim("results", placeholder=True)
     ),
 )
+        
+   
 
 
 def server(input, output, session):
@@ -72,7 +60,7 @@ def server(input, output, session):
         vals = [input.age(), input.fam(), input.sal()]
         print(calcs.calc_values(vals))
         await asyncio.sleep(2)
-        return f"Age: {input.age()}"
+        return f"Age: {input.age()}, Family: {input.fam()}, Salary: {input.sal()}"
     #output and render.plot need to be called before every plot for it to load.
     @output
     @render.plot(alt="Test")
@@ -102,5 +90,20 @@ def server(input, output, session):
         fig, ax = plt.subplots()
         ax.hist(x, input.dis(), density=True)
         return fig
-
+    @reactive.Effect
+    def _():
+        #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements
+        #asking what the outstanding debt amount is and what the interest rate is. If anything besides pay off deb is selected this 
+        #function will remove the input UI elements for outstanding debt amount and interest rate. To position insert_ui correctly you
+        #must specify a selector and tell it where to place the new ui element relative to the selector. where can = beforeBegin, afterBegin,
+        #beforeEnd, or afterEnd. Selector is based on the id of each UI element and must be formatted how it is in this function. 
+        goal = input.goal()
+        if goal == "Pay off debt":
+            ui.insert_ui(ui.input_numeric("pay", "Outstanding Debt Amount ($)", 10000, min=10000, max=1000000, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
+            ui.insert_ui(ui.input_numeric("int", "Interest Rate (%)", 1, min=0, max=20, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
+        elif goal != "Pay off debt":
+            ui.remove_ui(selector="div:has(> #pay)")
+            ui.remove_ui(selector="div:has(> #int)")
+            return
 app = App(app_ui, server)
+
