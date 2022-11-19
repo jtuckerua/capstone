@@ -45,8 +45,6 @@ app_ui = ui.page_fluid(
     ),
 )
         
-   
-
 
 def server(input, output, session):
     # Initialize map
@@ -58,7 +56,7 @@ def server(input, output, session):
     # This function is used to display data that is returned from the db
     async def results():
         vals = [input.age(), input.fam(), input.sal()]
-        print(calcs.calc_values(vals))
+        # print(calcs.calc_values(vals))
         await asyncio.sleep(2)
         return f"Age: {input.age()}, Family: {input.fam()}, Salary: {input.sal()}"
     #output and render.plot need to be called before every plot for it to load.
