@@ -29,7 +29,7 @@ def tbl_names():
     conn.close()
     return data
 
-def get_query():
+def run_query(query):
   """
   This function will create unique queries
   """
