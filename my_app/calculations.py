@@ -3,11 +3,13 @@ import geopy
 
 def compare_rent(data):
     """
-    Compare current rent with state and nation
-    data = [current_rent, current_locatio, home_size]
-    returns the difference between local, state, and nation wide rent averages. 
+    Salary = data[0]
+    savings = data[1]
+    debt = data[2]
+    goal = data[3]
+    rent = data[4]
     """
-    pass
+    
 
 def locations(location_data):
     """
