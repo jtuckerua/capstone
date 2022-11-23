@@ -16,8 +16,11 @@ def get_conn_cur(): # define function name and arguments (there aren't any)
   cur = conn.cursor()   # Make a cursor after
   return(conn, cur)   # Return both the connection and the cursor
 
-def tbl_names():
-    # makes a connection to the db
+def create_query(data):
+    """
+    receives data based on city, state, or rent amount, and table name
+    returns a dataframe
+    """
     conn, cur = get_conn_cur()
 
     qry_str = """SELECT table_name FROM information_schema.tables
