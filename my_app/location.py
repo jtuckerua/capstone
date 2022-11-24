@@ -1,4 +1,4 @@
-import geopy
+from geopy.geocoders import Nominatim
 states = {
     "Alabama": [
         "Florida",
@@ -323,10 +323,11 @@ states = {
         " Utah"
     ]
 }
-
+coder = Nominatim(user_agent='geopytest')
 def distance_calc(data):
     """
     input: current location and radius
     output: all cities within the radius
     """
-    
+    loc1 = coder.geocode("85719", addressdetails=True)
+    states.get(loc1[0].split(',')[5][1:])
