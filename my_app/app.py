@@ -42,7 +42,7 @@ app_ui = ui.page_fluid(
         ui.input_numeric("sal", "Salary", 10000, min=10000, max=1000000, width='10%'),
         ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
         ui.input_numeric("fam", "Family #", 1, min=1, max=10, width='10%'),
-        ui.input_slider("dis", "Distance", value=1, min=1, max=1000, step=50, post="mi", width='20%'),
+        ui.input_slider("dis", "Distance", value=1, min=1, max=500, step=50, post="mi", width='20%'),
         ui.input_action_button("predict","Predict", width='10%'),
         ui.output_text_verbatim("results", placeholder=True)
     ),
