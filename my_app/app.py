@@ -40,6 +40,7 @@ app_ui = ui.page_fluid(
        'Professional and technical services','Management of companies and enterprises','Administrative and waste services', 'Educational services','Health care and social assistance',
        'Arts, entertainment, and recreation','Accommodation and food services','Other services, except public administration','Public administration', 'Unclassified'], width='20%'),
         ui.input_numeric("sal", "Salary", 10000, min=10000, max=1000000, width='10%'),
+        ui.input_numeric("sav", "Savings", 0, min=0, max=1000000, width='10%'),
         ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
         ui.input_numeric("fam", "Family #", 1, min=1, max=10, width='10%'),
         ui.input_slider("dis", "Distance", value=1, min=1, max=1000, step=50, post="mi", width='20%'),
@@ -107,4 +108,3 @@ def server(input, output, session):
             ui.remove_ui(selector="div:has(> #int)")
             return
 app = App(app_ui, server)
-
