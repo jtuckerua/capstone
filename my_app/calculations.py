@@ -2,28 +2,30 @@ import numpy as np
 import geopy
 
 industries = {'10': 'Total, all industries',
- '11': 'Agriculture, forestry, fishing and hunting',
- '21': 'Mining, quarrying, and oil and gas extraction',
- '22': 'Utilities',
- '23': 'Construction',
- '31-33': 'Manufacturing',
- '42': 'Wholesale trade',
- '44-45': 'Retail trade',
- '48-49': 'Transportation and warehousing',
- '51': 'Information',
- '52': 'Finance and insurance',
- '53': 'Real estate and rental and leasing',
- '54': 'Professional and technical services',
- '55': 'Management of companies and enterprises',
- '56': 'Administrative and waste services',
- '61': 'Educational services',
- '62': 'Health care and social assistance',
- '71': 'Arts, entertainment, and recreation',
- '72': 'Accommodation and food services',
- '81': 'Other services, except public administration',
- '92': 'Public administration',
- '99': 'Unclassified'}
+                '11': 'Agriculture, forestry, fishing and hunting',
+                '21': 'Mining, quarrying, and oil and gas extraction',
+                '22': 'Utilities',
+                '23': 'Construction',
+                '31-33': 'Manufacturing',
+                '42': 'Wholesale trade',
+                '44-45': 'Retail trade',
+                '48-49': 'Transportation and warehousing',
+                '51': 'Information',
+                '52': 'Finance and insurance',
+                '53': 'Real estate and rental and leasing',
+                '54': 'Professional and technical services',
+                '55': 'Management of companies and enterprises',
+                '56': 'Administrative and waste services',
+                '61': 'Educational services',
+                '62': 'Health care and social assistance',
+                '71': 'Arts, entertainment, and recreation',
+                '72': 'Accommodation and food services',
+                '81': 'Other services, except public administration',
+                '92': 'Public administration',
+                '99': 'Unclassified'}
 
+salary = 0
+debt = []
 def calculations(data):
     """
     Salary = data[0]
@@ -42,10 +44,16 @@ def goal(goal):
     """
     
     if goal == "Buy a home":
+        """
+        calculate how much house they can afford and the down payment.
+        calculate where they can buy the home based on locations returned from industry.
+        Data Used: industry dataset, rent dataset, 
+        """
+        calc_home()
+        
+    if goal == "Improve quality of life":
         pass
-    if goal == "Save money":
-        pass
-    if goal == "Pay off debt":
+    if goal == "Investment Property":
         pass
     if goal == "Retire":
         pass
@@ -55,7 +63,7 @@ def calc_home():
     Calculate the amount of home afforded based on salary
     Returns the down payment and the amount of house
     """
-    pass
+    salary / 12
 
 def debt(data):
     """
@@ -88,9 +96,7 @@ def locations(location_data):
     """
     pass
 
-# def main():
-
-#     pass
-
-# if __name__ == "__main__":
-#     main()
+def industry():
+    """
+    Input is industry data 
+    """
