@@ -7,7 +7,7 @@ import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-import calculations as calcs
+from Data import calculations as calcs
 
 def nav_controls(prefix):
     return [

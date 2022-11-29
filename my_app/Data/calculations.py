@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
-from location import *
+from Data import location
+
 
 industries = { 'Total, all industries': '10',
                 'Agriculture, forestry, fishing and hunting':'11',
@@ -39,7 +40,7 @@ def calculations(data):
     industry = data[7]
     """
     retval = {
-        'current location' : [.location_info(data[6])],
+        'current location' :[location.location_info(data[6])],
         'location 1' : [],
         'location 2': [],
         'location 3' : []
