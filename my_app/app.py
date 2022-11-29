@@ -2,12 +2,13 @@ from logging import PlaceHolder
 from tkinter import CENTER
 from turtle import width
 from shiny import App, render, ui, reactive
-from shinywidgets import output_widget, register_widget, reactive_read, get_widget
+from shinywidgets import output_widget, register_widget, reactive_read
 import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-from Data import controller as ctl
+from Data import controller_program as ctl
+from Data import calculations as calcs
 
 def nav_controls(prefix):
     return [
@@ -73,13 +74,8 @@ def server(input, output, session):
             debt.append((input[f"pay{i}"], input[f"int{i}"], input[f"term{i}"]))
         # Get data from database
         # Run calculations
-<<<<<<< HEAD
-        results = calcs.calculations([salary, savings, debt, goal, rent, location, industry])
-        #Return results
-=======
         results = ctl.calculations([salary, savings, debt, goal, rent, location, industry])
-        # Return results
->>>>>>> d98eac864f8449dbe717c8e5d805d92d4bbc6b97
+        #Return results
         return results
     # This function is used to display data that is returned from the db
     async def results():
@@ -87,25 +83,6 @@ def server(input, output, session):
         results = await predict()
         # display results
         return results
-<<<<<<< HEAD
-
-    @reactive.event(input.predict)
-    # change city A to the city returned by the results fuction
-    #@output("page_navbar: tab a content")
-    #@render.text
-    async def city_a():
-        return await results()
-
-    @reactive.event(input.predict)
-    # change city B to the city returned by the results fuction
-    #@output("page_navbar: tab b content")
-    #@render.text
-    async def city_b():
-        return await results()
-    #output and render.plot need to be called before every plot for it to load.
-    @output
-=======
->>>>>>> d98eac864f8449dbe717c8e5d805d92d4bbc6b97
     @render.plot(alt="Test")
     #These are currently just placeholder plots that are tied to the input_slider.
     def plot():
@@ -139,10 +116,7 @@ def server(input, output, session):
             ui.remove_ui(selector="div:has(> #pay)")
             ui.remove_ui(selector="div:has(> #int)")
             return
-<<<<<<< HEAD
 
-app = App(app_ui, server)
-=======
     @reactive.Effect
     def _():
         # dynamically changes map coordinates to city A and city B based on the data returned from the predictions function
@@ -158,4 +132,3 @@ app = App(app_ui, server)
         map.fit_bounds([(city_a[1], city_a[2]), (city_b[1], city_b[2])])
         return
 app = App(app_ui, server)
->>>>>>> d98eac864f8449dbe717c8e5d805d92d4bbc6b97
