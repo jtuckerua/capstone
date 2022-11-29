@@ -26,7 +26,7 @@ app_ui = ui.page_fluid(
     ui.row(
         ui.page_navbar(*nav_controls("page_navbar"), title="Capstone", bg="#0062cc", inverse=True, id="navbar_id",
     footer=ui.div(
-        ui.row(
+    ui.row(
             ui.column(4, output_widget("map")),
             ui.column(4, ui.output_plot("plot")),
             ui.column(4, ui.output_plot("plot_3")),
@@ -41,10 +41,10 @@ app_ui = ui.page_fluid(
         ui.input_numeric("sal", "Salary", 10000, min=10000, max=1000000, width='10%'),
         ui.input_numeric("sav", "Savings", 0, min=0, max=1000000, width='10%'),
         ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
-        ui.input_numeric("fam", "Family #", 1, min=1, max=10, width='10%'),
+        ui.input_text("fam", "Family #", placeholder="enter zipcode", width='10%'),
         ui.input_numeric("zip", "Current Zipcode", 0, min=10000, max=99999, width='10%'),
         ui.input_numeric("rent", "Rent", 0, min=0, max=10000, width='10%'),
-        ui.input_slider("dis", "Distance", value=1, min=1, max=1000, step=50, post="mi", width='20%'),
+        ui.input_slider("dis", "Distance", value=1, min=1, max=500, step=50, post="mi", width='20%'),
         ui.input_action_button("predict","Predict", width='10%'),
         ui.output_text_verbatim("results", placeholder=True)
     ),
@@ -59,7 +59,7 @@ def server(input, output, session):
     @render.text
     @reactive.event(input.predict)
     async def predict():
-        # Get input data
+        #Get input data
         goal = input.goal
         industry = input.industry
         salary = input.sal
@@ -69,26 +69,26 @@ def server(input, output, session):
         debt = input.debt
         # Run calculations
         results = calcs.calculations([salary, savings, debt, goal, rent, location, industry])
-        # Return results
+        #Return results
         return results
     # This function is used to display data that is returned from the db
     async def results():
-        # get output from calculations
+        #get output from calculations
         results = await predict()
         # display results
         return results
 
     @reactive.event(input.predict)
     # change city A to the city returned by the results fuction
-    @output("page_navbar: tab a content")
-    @render.text
+    #@output("page_navbar: tab a content")
+    #@render.text
     async def city_a():
         return await results()
 
     @reactive.event(input.predict)
     # change city B to the city returned by the results fuction
-    @output("page_navbar: tab b content")
-    @render.text
+    #@output("page_navbar: tab b content")
+    #@render.text
     async def city_b():
         return await results()
     #output and render.plot need to be called before every plot for it to load.
