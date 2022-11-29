@@ -7,7 +7,7 @@ import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-from Data import calculations as calcs
+from Data import controller as ctl
 
 def nav_controls(prefix):
     return [
@@ -68,7 +68,7 @@ def server(input, output, session):
         location = input.loc
         debt = input.debt
         # Run calculations
-        results = calcs.calculations([salary, savings, debt, goal, rent, location, industry])
+        results = ctl.calculations([salary, savings, debt, goal, rent, location, industry])
         # Return results
         return results
     # This function is used to display data that is returned from the db
