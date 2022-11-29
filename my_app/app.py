@@ -7,8 +7,7 @@ import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-from Data import controller_program as ctl
-from Data import calculations as calcs
+from Data import controller as ctl
 
 def nav_controls(prefix):
     return [
