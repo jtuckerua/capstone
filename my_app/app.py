@@ -27,21 +27,20 @@ app_ui = ui.page_fluid(
         ui.page_navbar(*nav_controls("page_navbar"), title="Capstone", bg="#0062cc", inverse=True, id="navbar_id",
     footer=ui.div(
         ui.row(
-            ui.column(3, output_widget("map")),
-            ui.column(3, ui.output_plot("plot")),
-            ui.column(3, ui.output_plot("plot_2")),
-            ui.column(3, ui.output_plot("plot_3")),
+            ui.column(4, output_widget("map")),
+            ui.column(4, ui.output_plot("plot")),
+            ui.column(4, ui.output_plot("plot_3")),
         ),
     ))),
     ui.row(
-        ui.input_select("goal", "Financial Goal", ["Buy a home", "Save money","Pay off debt", "Retire"], width='20%'),
+        ui.input_select("goal", "Financial Goal", ["Buy a home", "Save money","Pay off debt", "Retire"], width='10%'),
         ui.input_select("industry", "Job Industry", ['Total, all industries','Agriculture, forestry, fishing and hunting','Mining, quarrying, and oil and gas extraction', 'Utilities',
        'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade','Transportation and warehousing', 'Information','Finance and insurance', 'Real estate and rental and leasing',
        'Professional and technical services','Management of companies and enterprises','Administrative and waste services', 'Educational services','Health care and social assistance',
        'Arts, entertainment, and recreation','Accommodation and food services','Other services, except public administration','Public administration', 'Unclassified'], width='20%'),
         ui.input_numeric("sal", "Salary", 10000, min=10000, max=1000000, width='10%'),
         ui.input_numeric("sav", "Savings", 0, min=0, max=1000000, width='10%'),
-        ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
+        ui.input_numeric("age", "Age", 18, min=1, max=100, width='5%'),
         ui.input_numeric("fam", "Family #", 1, min=1, max=10, width='10%'),
         ui.input_slider("dis", "Distance", value=1, min=1, max=1000, step=50, post="mi", width='20%'),
         ui.input_action_button("predict","Predict", width='10%'),
@@ -83,15 +82,6 @@ def server(input, output, session):
     #These are currently just placeholder plots that are tied to the input_slider.
     def plot():
         np.random.seed(19680001)
-        x = 100 + 15 * np.random.randn(437)
-
-        fig, ax = plt.subplots()
-        ax.hist(x, input.dis(), density=True)
-        return fig
-    @output
-    @render.plot(alt="Test")
-    def plot_2():
-        np.random.seed(19684001)
         x = 100 + 15 * np.random.randn(437)
 
         fig, ax = plt.subplots()
