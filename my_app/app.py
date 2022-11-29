@@ -33,7 +33,7 @@ app_ui = ui.page_fluid(
         ),
     ))),
     ui.row(
-        ui.input_select("goal", "Financial Goal", ["Buy a home", "Improve Quality of Life","Retirement", "Retire"], width='20%'),
+        ui.input_select("goal", "Financial Goal", ['Buy a Home', 'Improve Quality of Life','Pay off Debt','Retirement'], width='20%'),
         ui.input_select("industry", "Job Industry", ['Total, all industries','Agriculture, forestry, fishing and hunting','Mining, quarrying, and oil and gas extraction', 'Utilities',
        'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade','Transportation and warehousing', 'Information','Finance and insurance', 'Real estate and rental and leasing',
        'Professional and technical services','Management of companies and enterprises','Administrative and waste services', 'Educational services','Health care and social assistance',
@@ -119,11 +119,12 @@ def server(input, output, session):
         #must specify a selector and tell it where to place the new ui element relative to the selector. where can = beforeBegin, afterBegin,
         #beforeEnd, or afterEnd. Selector is based on the id of each UI element and must be formatted how it is in this function. 
         goal = input.goal()
-        if goal == "Pay off debt":
+        if goal == "Pay off Debt":
             ui.insert_ui(ui.input_numeric("pay", "Outstanding Debt Amount ($)", 10000, min=10000, max=1000000, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
             ui.insert_ui(ui.input_numeric("int", "Interest Rate (%)", 1, min=0, max=20, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
-        elif goal != "Pay off debt":
+        elif goal != "Pay off Debt":
             ui.remove_ui(selector="div:has(> #pay)")
             ui.remove_ui(selector="div:has(> #int)")
             return
+
 app = App(app_ui, server)
