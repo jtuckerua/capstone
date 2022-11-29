@@ -1,0 +1,1209 @@
+area_fips,City,State
+US000,U.S. TOTAL,
+USCMS,U.S. Combined Statistical Areas (combined),
+USMSA,U.S. Metropolitan Statistical Areas (combined),
+USNMS,U.S. Nonmetropolitan Area Counties (combined),
+C1002,Abbeville,LA
+C1010,Aberdeen,SD
+C1014,Aberdeen,WA
+C1018,Abilene,TX
+C1022,Ada,OK
+C1026,Adjuntas,PR
+C1030,Adrian,MI
+C1038,Aguadilla-Isabela,PR
+C1042,Akron,OH
+C1046,Alamogordo,NM
+C1050,Albany,GA
+C1054,Albany,OR
+C1058,Albany-Schenectady-Troy,NY
+C1062,Albemarle,NC
+C1066,Albert Lea,MN
+C1070,Albertville,AL
+C1074,Albuquerque,NM
+C1076,Alexander City,AL
+C1078,Alexandria,LA
+C1082,Alexandria,MN
+C1086,Alice,TX
+C1088,Allegan,MI
+C1090,Allentown-Bethlehem-Easton,PA-NJ
+C1094,Alma,MI
+C1098,Alpena,MI
+C1102,Altoona,PA
+C1106,Altus,OK
+C1110,Amarillo,TX
+C1114,Americus,GA
+C1118,Ames,IA
+C1122,Amsterdam,NY
+C1126,Anchorage,AK
+C1130,Anderson,IN
+C1134,Anderson,SC
+C1138,Andrews,TX
+C1142,Angola,IN
+C1146,Ann Arbor,MI
+C1150,Anniston-Oxford-Jacksonville,AL
+C1154,Appleton,WI
+C1158,Arcadia,FL
+C1162,Ardmore,OK
+C1164,Arecibo,PR
+C1166,Arkadelphia,AR
+C1168,Arkansas City-Winfield,KS
+C1170,Asheville,NC
+C1174,Ashland,OH
+C1178,Ashtabula,OH
+C1182,Astoria,OR
+C1186,Atchison,KS
+C1190,Athens,OH
+C1194,Athens,TN
+C1198,Athens,TX
+C1202,Athens-Clarke County,GA
+C1206,Atlanta-Sandy Springs-Roswell,GA
+C1210,Atlantic City-Hammonton,NJ
+C1214,Auburn,IN
+C1218,Auburn,NY
+C1222,Auburn-Opelika,AL
+C1226,Augusta-Richmond County,GA-SC
+C1230,Augusta-Waterville,ME
+C1238,Austin,MN
+C1242,Austin-Round Rock,TX
+C1246,Bainbridge,GA
+C1254,Bakersfield,CA
+C1258,Baltimore-Columbia-Towson,MD
+C1262,Bangor,ME
+C1266,Baraboo,WI
+C1268,Bardstown,KY
+C1270,Barnstable Town,MA
+C1274,Barre,VT
+C1278,Bartlesville,OK
+C1282,Bastrop,LA
+C1286,Batavia,NY
+C1290,Batesville,AR
+C1294,Baton Rouge,LA
+C1298,Battle Creek,MI
+C1302,Bay City,MI
+C1306,Bay City,TX
+C1310,Beatrice,NE
+C1314,Beaumont-Port Arthur,TX
+C1318,Beaver Dam,WI
+C1322,Beckley,WV
+C1326,Bedford,IN
+C1330,Beeville,TX
+C1334,Bellefontaine,OH
+C1338,Bellingham,WA
+C1342,Bemidji,MN
+C1346,Bend-Redmond,OR
+C1350,Bennettsville,SC
+C1354,Bennington,VT
+C1362,Berlin,NH-VT
+C1366,Big Rapids,MI
+C1370,Big Spring,TX
+C1372,Big Stone Gap,VA
+C1374,Billings,MT
+C1378,Binghamton,NY
+C1382,Birmingham-Hoover,AL
+C1386,Bishop,CA
+C1390,Bismarck,ND
+C1394,Blackfoot,ID
+C1398,Blacksburg-Christiansburg-Radford,VA
+C1401,Bloomington,IL
+C1402,Bloomington,IN
+C1406,Bloomington-Normal,IL
+C1410,Bloomsburg-Berwick,PA
+C1414,Bluefield,WV-VA
+C1418,Blytheville,AR
+C1422,Bogalusa,LA
+C1426,Boise City,ID
+C1434,Boone,IA
+C1438,Boone,NC
+C1442,Borger,TX
+C1446,Boston-Cambridge-Newton,MA-NH
+C1450,Boulder,CO
+C1454,Bowling Green,KY
+C1458,Bozeman,MT
+C1462,Bradford,PA
+C1466,Brainerd,MN
+C1470,Branson,MO
+C1472,Breckenridge,CO
+C1474,Bremerton-Silverdale,WA
+C1478,Brenham,TX
+C1482,Brevard,NC
+C1486,Bridgeport-Stamford-Norwalk,CT
+C1494,Brigham City,UT
+C1498,Bristol,VA
+C1502,Brookhaven,MS
+C1506,Brookings,OR
+C1510,Brookings,SD
+C1514,Brownsville,TN
+C1518,Brownsville-Harlingen,TX
+C1522,Brownwood,TX
+C1526,Brunswick,GA
+C1534,Bucyrus,OH
+C1538,Buffalo-Cheektowaga-Niagara Falls,NY
+C1542,Burley,ID
+C1546,Burlington,IA-IL
+C1550,Burlington,NC
+C1554,Burlington-South Burlington,VT
+C1558,Butte-Silver Bow,MT
+C1562,Cadillac,MI
+C1566,Calhoun,GA
+C1568,California-Lexington Park,MD
+C1570,Cambridge,MD
+C1574,Cambridge,OH
+C1578,Camden,AR
+C1582,Campbellsville,KY
+C1586,Canon City,CO
+C1590,Canton,IL
+C1594,Canton-Massillon,OH
+C1598,Cape Coral-Fort Myers,FL
+C1602,Cape Girardeau,MO-IL
+C1606,Carbondale-Marion,IL
+C1610,Carlsbad-Artesia,NM
+C1618,Carson City,NV
+C1622,Casper,WY
+C1626,Cedar City,UT
+C1630,Cedar Rapids,IA
+C1634,Cedartown,GA
+C1638,Celina,OH
+C1642,Central City,KY
+C1646,Centralia,IL
+C1650,Centralia,WA
+C1654,Chambersburg-Waynesboro,PA
+C1658,Champaign-Urbana,IL
+C1662,Charleston,WV
+C1666,Charleston-Mattoon,IL
+C1670,Charleston-North Charleston,SC
+C1674,Charlotte-Concord-Gastonia,NC-SC
+C1682,Charlottesville,VA
+C1686,Chattanooga,TN-GA
+C1690,Chester,SC
+C1694,Cheyenne,WY
+C1698,Chicago-Naperville-Elgin,IL-IN-WI
+C1702,Chico,CA
+C1706,Chillicothe,OH
+C1714,Cincinnati,OH-KY-IN
+C1718,City of The Dalles,OR
+C1720,Claremont-Lebanon,NH-VT
+C1722,Clarksburg,WV
+C1726,Clarksdale,MS
+C1730,Clarksville,TN-KY
+C1734,Clearlake,CA
+C1738,Cleveland,MS
+C1742,Cleveland,TN
+C1746,Cleveland-Elyria,OH
+C1750,Clewiston,FL
+C1754,Clinton,IA
+C1758,Clovis,NM
+C1762,Coamo,PR
+C1764,Coco,PR
+C1766,Coeur d'Alene,ID
+C1770,Coffeyville,KS
+C1774,Coldwater,MI
+C1778,College Station-Bryan,TX
+C1782,Colorado Springs,CO
+C1786,Columbia,MO
+C1790,Columbia,SC
+C1794,Columbia,TN
+C1798,Columbus,GA-AL
+C1802,Columbus,IN
+C1806,Columbus,MS
+C1810,Columbus,NE
+C1814,Columbus,OH
+C1818,Concord,NH
+C1822,Connersville,IN
+C1826,Cookeville,TN
+C1830,Coos Bay,OR
+C1834,Corbin,KY
+C1838,Cordele,GA
+C1842,Corinth,MS
+C1846,Cornelia,GA
+C1850,Corning,NY
+C1858,Corpus Christi,TX
+C1862,Corsicana,TX
+C1866,Cortland,NY
+C1870,Corvallis,OR
+C1874,Coshocton,OH
+C1878,Craig,CO
+C1882,Crawfordsville,IN
+C1886,Crescent City,CA
+C1888,Crestview-Fort Walton Beach-Destin,FL
+C1890,Crossville,TN
+C1894,Crowley,LA
+C1898,Cullman,AL
+C1900,Cullowhee,NC
+C1906,Cumberland,MD-WV
+C1910,Dallas-Fort Worth-Arlington,TX
+C1914,Dalton,GA
+C1918,Danville,IL
+C1922,Danville,KY
+C1926,Danville,VA
+C1930,Daphne-Fairhope-Foley,AL
+C1934,Davenport-Moline-Rock Island,IA-IL
+C1938,Dayton,OH
+C1942,Dayton,TN
+C1946,Decatur,AL
+C1950,Decatur,IL
+C1954,Decatur,IN
+C1958,Defiance,OH
+C1962,Del Rio,TX
+C1966,Deltona-Daytona Beach-Ormond Beach,FL
+C1970,Deming,NM
+C1974,Denver-Aurora-Lakewood,CO
+C1976,DeRidder,LA
+C1978,Des Moines-West Des Moines,IA
+C1982,Detroit-Warren-Dearborn,MI
+C1986,Dickinson,ND
+C1990,Dillon,SC
+C1994,Dixon,IL
+C1998,Dodge City,KS
+C2002,Dothan,AL
+C2006,Douglas,GA
+C2010,Dover,DE
+C2014,Dublin,GA
+C2018,DuBois,PA
+C2022,Dubuque,IA
+C2026,Duluth,MN-WI
+C2030,Dumas,TX
+C2034,Duncan,OK
+C2038,Dunn,NC
+C2042,Durango,CO
+C2046,Durant,OK
+C2050,Durham-Chapel Hill,NC
+C2054,Dyersburg,TN
+C2058,Eagle Pass,TX
+C2062,East Liverpool-Salem,OH
+C2066,Easton,MD
+C2070,East Stroudsburg,PA
+C2074,Eau Claire,WI
+C2078,Edwards,CO
+C2082,Effingham,IL
+C2090,El Campo,TX
+C2094,El Centro,CA
+C2098,El Dorado,AR
+C2102,Elizabeth City,NC
+C2106,Elizabethtown-Fort Knox,KY
+C2112,Elk City,OK
+C2114,Elkhart-Goshen,IN
+C2118,Elkins,WV
+C2122,Elko,NV
+C2126,Ellensburg,WA
+C2130,Elmira,NY
+C2134,El Paso,TX
+C2138,Emporia,KS
+C2142,Enid,OK
+C2146,Enterprise,AL
+C2150,Erie,PA
+C2154,Escanaba,MI
+C2158,Espanola,NM
+C2164,Eufaula,AL-GA
+C2166,Eugene,OR
+C2170,Eureka-Arcata-Fortuna,CA
+C2174,Evanston,WY
+C2178,Evansville,IN-KY
+C2182,Fairbanks,AK
+C2184,Fairfield,IA
+C2186,Fairmont,MN
+C2190,Fairmont,WV
+C2194,Fajardo,PR
+C2198,Fallon,NV
+C2202,Fargo,ND-MN
+C2206,Faribault-Northfield,MN
+C2210,Farmington,MO
+C2214,Farmington,NM
+C2218,Fayetteville,NC
+C2222,Fayetteville-Springdale-Rogers,AR-MO
+C2226,Fergus Falls,MN
+C2228,Fernley,NV
+C2230,Findlay,OH
+C2234,Fitzgerald,GA
+C2238,Flagstaff,AZ
+C2242,Flint,MI
+C2246,Florence,AL
+C2250,Florence,SC
+C2252,Florence-Muscle Shoals,AL
+C2254,Fond du Lac,WI
+C2258,Forest City,NC
+C2262,Forrest City,AR
+C2266,Fort Collins,CO
+C2270,Fort Dodge,IA
+C2278,Fort Leonard Wood,MO
+C2280,Fort Madison-Keokuk,IA-IL-MO
+C2282,Fort Morgan,CO
+C2284,Fort Payne,AL
+C2286,Fort Polk South,LA
+C2290,Fort Smith,AR-OK
+C2298,Fort Valley,GA
+C2302,Fort Walton Beach-Crestview-Destin,FL
+C2306,Fort Wayne,IN
+C2314,Frankfort,IN
+C2318,Frankfort,KY
+C2324,Fredericksburg,TX
+C2330,Freeport,IL
+C2334,Fremont,NE
+C2338,Fremont,OH
+C2342,Fresno,CA
+C2346,Gadsden,AL
+C2350,Gaffney,SC
+C2354,Gainesville,FL
+C2358,Gainesville,GA
+C2362,Gainesville,TX
+C2366,Galesburg,IL
+C2370,Gallup,NM
+C2378,Garden City,KS
+C2382,Gardnerville Ranchos,NV
+C2386,Georgetown,SC
+C2390,Gettysburg,PA
+C2394,Gillette,WY
+C2398,Glasgow,KY
+C2402,Glens Falls,NY
+C2406,Glenwood Springs,CO
+C2410,Gloversville,NY
+C2414,Goldsboro,NC
+C2418,Granbury,TX
+C2422,Grand Forks,ND-MN
+C2426,Grand Island,NE
+C2430,Grand Junction,CO
+C2434,Grand Rapids-Wyoming,MI
+C2438,Grants,NM
+C2442,Grants Pass,OR
+C2446,Great Bend,KS
+C2450,Great Falls,MT
+C2454,Greeley,CO
+C2458,Green Bay,WI
+C2462,Greeneville,TN
+C2464,Greenfield Town,MA
+C2466,Greensboro-High Point,NC
+C2470,Greensburg,IN
+C2474,Greenville,MS
+C2478,Greenville,NC
+C2482,Greenville,OH
+C2486,Greenville-Anderson-Mauldin,SC
+C2490,Greenwood,MS
+C2494,Greenwood,SC
+C2498,Grenada,MS
+C2502,Guayama,PR
+C2506,Gulfport-Biloxi-Pascagoula,MS
+C2510,Guymon,OK
+C2518,Hagerstown-Martinsburg,MD-WV
+C2520,Hailey,ID
+C2522,Hammond,LA
+C2526,Hanford-Corcoran,CA
+C2530,Hannibal,MO
+C2534,Harriman,TN
+C2538,Harrisburg,IL
+C2542,Harrisburg-Carlisle,PA
+C2546,Harrison,AR
+C2550,Harrisonburg,VA
+C2554,Hartford-West Hartford-East Hartford,CT
+C2558,Hastings,NE
+C2562,Hattiesburg,MS
+C2566,Havre,MT
+C2570,Hays,KS
+C2572,Heber,UT
+C2574,Helena,MT
+C2576,Helena-West Helena,AR
+C2578,Henderson,NC
+C2582,Hereford,TX
+C2584,Hermiston-Pendleton,OR
+C2586,Hickory-Lenoir-Morganton,NC
+C2588,Hillsdale,MI
+C2590,Hilo,HI
+C2594,Hilton Head Island-Bluffton-Beaufort,SC
+C2598,Hinesville,GA
+C2602,Hobbs,NM
+C2609,Holland,MI
+C2610,Holland-Grand Haven,MI
+C2614,Homosassa Springs,FL
+C2618,Honolulu,HI
+C2622,Hood River,OR
+C2626,Hope,AR
+C2630,Hot Springs,AR
+C2634,Houghton,MI
+C2638,Houma-Thibodaux,LA
+C2642,Houston-The Woodlands-Sugar Land,TX
+C2646,Hudson,NY
+C2648,Humboldt,TN
+C2650,Huntingdon,PA
+C2654,Huntington,IN
+C2658,Huntington-Ashland,WV-KY-OH
+C2662,Huntsville,AL
+C2666,Huntsville,TX
+C2670,Huron,SD
+C2674,Hutchinson,KS
+C2678,Hutchinson,MN
+C2682,Idaho Falls,ID
+C2686,Indiana,PA
+C2690,Indianapolis-Carmel-Anderson,IN
+C2694,Indianola,MS
+C2696,Ionia,MI
+C2698,Iowa City,IA
+C2702,Iron Mountain,MI-WI
+C2706,Ithaca,NY
+C2710,Jackson,MI
+C2714,Jackson,MS
+C2716,Jackson,OH
+C2718,Jackson,TN
+C2722,Jackson,WY-ID
+C2726,Jacksonville,FL
+C2730,Jacksonville,IL
+C2734,Jacksonville,NC
+C2738,Jacksonville,TX
+C2742,Jamestown,ND
+C2746,Jamestown-Dunkirk-Fredonia,NY
+C2750,Janesville-Beloit,WI
+C2754,Jasper,IN
+C2758,Jayuya,PR
+C2760,Jefferson,GA
+C2762,Jefferson City,MO
+C2766,Jennings,LA
+C2770,Jesup,GA
+C2774,Johnson City,TN
+C2778,Johnstown,PA
+C2786,Jonesboro,AR
+C2790,Joplin,MO
+C2792,Junction City,KS
+C2794,Juneau,AK
+C2798,Kahului-Wailuku-Lahaina,HI
+C2802,Kalamazoo-Portage,MI
+C2806,Kalispell,MT
+C2810,Kankakee,IL
+C2814,Kansas City,MO-KS
+C2818,Kapaa,HI
+C2826,Kearney,NE
+C2830,Keene,NH
+C2834,Kendallville,IN
+C2838,Kennett,MO
+C2842,Kennewick-Richland,WA
+C2846,Keokuk-Fort Madison,IA-MO
+C2850,Kerrville,TX
+C2854,Ketchikan,AK
+C2858,Key West,FL
+C2862,Kill Devil Hills,NC
+C2866,Killeen-Temple,TX
+C2870,Kingsport-Bristol-Bristol,TN-VA
+C2874,Kingston,NY
+C2878,Kingsville,TX
+C2882,Kinston,NC
+C2886,Kirksville,MO
+C2890,Klamath Falls,OR
+C2894,Knoxville,TN
+C2898,Kodiak,AK
+C2902,Kokomo,IN
+C2906,Laconia,NH
+C2910,La Crosse-Onalaska,WI-MN
+C2914,Lafayette,IN
+C2918,Lafayette,LA
+C2920,Lafayette-West Lafayette,IN
+C2922,La Follette,TN
+C2926,La Grande,OR
+C2930,LaGrange,GA
+C2934,Lake Charles,LA
+C2938,Lake City,FL
+C2942,Lake Havasu City-Kingman,AZ
+C2946,Lakeland-Winter Haven,FL
+C2950,Lamesa,TX
+C2954,Lancaster,PA
+C2958,Lancaster,SC
+C2962,Lansing-East Lansing,MI
+C2966,Laramie,WY
+C2970,Laredo,TX
+C2974,Las Cruces,NM
+C2978,Las Vegas,NM
+C2982,Las Vegas-Henderson-Paradise,NV
+C2986,Laurel,MS
+C2990,Laurinburg,NC
+C2994,Lawrence,KS
+C2998,Lawrenceburg,TN
+C3002,Lawton,OK
+C3006,Lebanon,MO
+C3010,Lebanon,NH-VT
+C3014,Lebanon,PA
+C3022,Levelland,TX
+C3026,Lewisburg,PA
+C3028,Lewisburg,TN
+C3030,Lewiston,ID-WA
+C3034,Lewiston-Auburn,ME
+C3038,Lewistown,PA
+C3042,Lexington,NE
+C3046,Lexington-Fayette,KY
+C3050,Lexington Park,MD
+C3054,Lexington-Thomasville,NC
+C3058,Liberal,KS
+C3062,Lima,OH
+C3066,Lincoln,IL
+C3070,Lincoln,NE
+C3074,Lincolnton,NC
+C3078,Little Rock-North Little Rock-Conway,AR
+C3082,Lock Haven,PA
+C3086,Logan,UT-ID
+C3088,Logan,WV
+C3090,Logansport,IN
+C3094,London,KY
+C3098,Longview,TX
+C3102,Longview,WA
+C3106,Los Alamos,NM
+C3108,Los Angeles-Long Beach-Anaheim,CA
+C3110,Los Angeles-Long Beach-Santa Ana,CA
+C3114,Louisville-Jefferson County,KY-IN
+C3118,Lubbock,TX
+C3122,Ludington,MI
+C3126,Lufkin,TX
+C3130,Lumberton,NC
+C3134,Lynchburg,VA
+C3138,Macomb,IL
+C3142,Macon,GA
+C3146,Madera,CA
+C3150,Madison,IN
+C3154,Madison,WI
+C3158,Madisonville,KY
+C3162,Magnolia,AR
+C3166,Malone,NY
+C3168,Malvern,AR
+C3170,Manchester-Nashua,NH
+C3174,Manhattan,KS
+C3182,Manitowoc,WI
+C3186,Mankato-North Mankato,MN
+C3190,Mansfield,OH
+C3193,Marietta,OH
+C3194,Marinette,WI-MI
+C3198,Marion,IN
+C3200,Marion,NC
+C3202,Marion,OH
+C3206,Marion-Herrin,IL
+C3210,Marquette,MI
+C3214,Marshall,MN
+C3218,Marshall,MO
+C3222,Marshall,TX
+C3226,Marshalltown,IA
+C3228,Martin,TN
+C3230,Martinsville,VA
+C3234,Maryville,MO
+C3238,Mason City,IA
+C3242,Mayaguez,PR
+C3246,Mayfield,KY
+C3250,Maysville,KY
+C3254,McAlester,OK
+C3258,McAllen-Edinburg-Mission,TX
+C3262,McComb,MS
+C3266,McMinnville,TN
+C3270,McPherson,KS
+C3274,Meadville,PA
+C3278,Medford,OR
+C3282,Memphis,TN-MS-AR
+C3286,Menomonie,WI
+C3290,Merced,CA
+C3294,Meridian,MS
+C3298,Merrill,WI
+C3302,Mexico,MO
+C3306,Miami,OK
+C3310,Miami-Fort Lauderdale-West Palm Beach,FL
+C3314,Michigan City-La Porte,IN
+C3318,Middlesborough,KY
+C3322,Midland,MI
+C3326,Midland,TX
+C3330,Milledgeville,GA
+C3334,Milwaukee-Waukesha-West Allis,WI
+C3338,Minden,LA
+C3342,Mineral Wells,TX
+C3346,Minneapolis-St. Paul-Bloomington,MN-WI
+C3350,Minot,ND
+C3354,Missoula,MT
+C3358,Mitchell,SD
+C3362,Moberly,MO
+C3366,Mobile,AL
+C3370,Modesto,CA
+C3374,Monroe,LA
+C3378,Monroe,MI
+C3382,Monroe,WI
+C3386,Montgomery,AL
+C3394,Montrose,CO
+C3398,Morehead City,NC
+C3402,Morgan City,LA
+C3406,Morgantown,WV
+C3410,Morristown,TN
+C3414,Moscow,ID
+C3418,Moses Lake,WA
+C3422,Moultrie,GA
+C3426,Mountain Home,AR
+C3430,Mountain Home,ID
+C3434,Mount Airy,NC
+C3438,Mount Pleasant,MI
+C3442,Mount Pleasant,TX
+C3446,Mount Sterling,KY
+C3450,Mount Vernon,IL
+C3454,Mount Vernon,OH
+C3458,Mount Vernon-Anacortes,WA
+C3462,Muncie,IN
+C3466,Murray,KY
+C3470,Muscatine,IA
+C3474,Muskegon,MI
+C3478,Muskogee,OK
+C3482,Myrtle Beach-Conway-North Myrtle Beach,SC-NC
+C3486,Nacogdoches,TX
+C3490,Napa,CA
+C3494,Naples-Immokalee-Marco Island,FL
+C3498,Nashville-Davidson-Murfreesboro-Franklin,TN
+C3502,Natchez,MS-LA
+C3506,Natchitoches,LA
+C3510,New Bern,NC
+C3514,Newberry,SC
+C3522,New Castle,IN
+C3526,New Castle,PA
+C3530,New Haven-Milford,CT
+C3534,New Iberia,LA
+C3538,New Orleans-Metairie,LA
+C3542,New Philadelphia-Dover,OH
+C3544,Newport,OR
+C3546,Newport,TN
+C3550,Newton,IA
+C3558,New Ulm,MN
+C3562,New York-Newark-Jersey City,NY-NJ-PA
+C3566,Niles-Benton Harbor,MI
+C3570,Nogales,AZ
+C3574,Norfolk,NE
+C3582,North Platte,NE
+C3584,North Port-Sarasota-Bradenton,FL
+C3586,North Vernon,IN
+C3590,North Wilkesboro,NC
+C3594,Norwalk,OH
+C3598,Norwich-New London,CT
+C3602,Oak Harbor,WA
+C3606,Oak Hill,WV
+C3610,Ocala,FL
+C3614,Ocean City,NJ
+C3618,Ocean Pines,MD
+C3622,Odessa,TX
+C3626,Ogden-Clearfield,UT
+C3630,Ogdensburg-Massena,NY
+C3634,Oil City,PA
+C3638,Okeechobee,FL
+C3642,Oklahoma City,OK
+C3646,Olean,NY
+C3650,Olympia-Tumwater,WA
+C3654,Omaha-Council Bluffs,NE-IA
+C3658,Oneonta,NY
+C3662,Ontario,OR-ID
+C3666,Opelousas,LA
+C3670,Orangeburg,SC
+C3674,Orlando-Kissimmee-Sanford,FL
+C3678,Oshkosh-Neenah,WI
+C3682,Oskaloosa,IA
+C3683,Othello,WA
+C3684,Ottawa,KS
+C3686,Ottawa-Peru,IL
+C3690,Ottumwa,IA
+C3694,Owatonna,MN
+C3698,Owensboro,KY
+C3702,Owosso,MI
+C3706,Oxford,MS
+C3708,Oxford,NC
+C3710,Oxnard-Thousand Oaks-Ventura,CA
+C3712,Ozark,AL
+C3714,Paducah,KY-IL
+C3722,Pahrump,NV
+C3726,Palatka,FL
+C3730,Palestine,TX
+C3734,Palm Bay-Melbourne-Titusville,FL
+C3738,Palm Coast,FL
+C3742,Pampa,TX
+C3746,Panama City,FL
+C3750,Paragould,AR
+C3754,Paris,TN
+C3758,Paris,TX
+C3762,Parkersburg-Vienna,WV
+C3766,Parsons,KS
+C3770,Pascagoula,MS
+C3774,Payson,AZ
+C3778,Pecos,TX
+C3780,Pella,IA
+C3782,Pendleton-Hermiston,OR
+C3786,Pensacola-Ferry Pass-Brent,FL
+C3790,Peoria,IL
+C3794,Peru,IN
+C3798,Philadelphia-Camden-Wilmington,PA-NJ-DE-MD
+C3802,Phoenix Lake-Cedar Ridge,CA
+C3806,Phoenix-Mesa-Scottsdale,AZ
+C3810,Picayune,MS
+C3818,Pierre,SD
+C3820,Pierre Part,LA
+C3822,Pine Bluff,AR
+C3824,Pinehurst-Southern Pines,NC
+C3826,Pittsburg,KS
+C3830,Pittsburgh,PA
+C3834,Pittsfield,MA
+C3838,Plainview,TX
+C3842,Platteville,WI
+C3846,Plattsburgh,NY
+C3850,Plymouth,IN
+C3854,Pocatello,ID
+C3858,Point Pleasant,WV-OH
+C3862,Ponca City,OK
+C3866,Ponce,PR
+C3870,Pontiac,IL
+C3874,Poplar Bluff,MO
+C3878,Portales,NM
+C3882,Port Angeles,WA
+C3884,Port Clinton,OH
+C3886,Portland-South Portland,ME
+C3890,Portland-Vancouver-Hillsboro,OR-WA
+C3892,Port Lavaca,TX
+C3894,Port St. Lucie,FL
+C3902,Portsmouth,OH
+C3906,Pottsville,PA
+C3910,Poughkeepsie-Newburgh-Middletown,NY
+C3914,Prescott,AZ
+C3922,Price,UT
+C3926,Prineville,OR
+C3930,Providence-Warwick,RI-MA
+C3934,Provo-Orem,UT
+C3938,Pueblo,CO
+C3942,Pullman,WA
+C3946,Punta Gorda,FL
+C3950,Quincy,IL-MO
+C3954,Racine,WI
+C3958,Raleigh,NC
+C3966,Rapid City,SD
+C3970,Raymondville,TX
+C3974,Reading,PA
+C3978,Red Bluff,CA
+C3982,Redding,CA
+C3986,Red Wing,MN
+C3990,Reno,NV
+C3994,Rexburg,ID
+C3998,Richmond,IN
+C4002,Richmond,KY
+C4006,Richmond,VA
+C4008,Richmond-Berea,KY
+C4010,Rio Grande City,TX
+C4014,Riverside-San Bernardino-Ontario,CA
+C4018,Riverton,WY
+C4022,Roanoke,VA
+C4026,Roanoke Rapids,NC
+C4030,Rochelle,IL
+C4034,Rochester,MN
+C4038,Rochester,NY
+C4042,Rockford,IL
+C4046,Rockingham,NC
+C4050,Rockland,ME
+C4054,Rock Springs,WY
+C4058,Rocky Mount,NC
+C4062,Rolla,MO
+C4066,Rome,GA
+C4070,Roseburg,OR
+C4074,Roswell,NM
+C4078,Russellville,AR
+C4082,Ruston,LA
+C4086,Rutland,VT
+C4090,Sacramento-Roseville-Arden-Arcade,CA
+C4094,Safford,AZ
+C4098,Saginaw,MI
+C4106,St. Cloud,MN
+C4110,St. George,UT
+C4114,St. Joseph,MO-KS
+C4118,St. Louis,MO-IL
+C4122,St. Marys,GA
+C4126,St. Marys,PA
+C4140,Salem,OH
+C4142,Salem,OR
+C4146,Salina,KS
+C4150,Salinas,CA
+C4154,Salisbury,MD-DE
+C4158,Salisbury,NC
+C4162,Salt Lake City,UT
+C4166,San Angelo,TX
+C4170,San Antonio-New Braunfels,TX
+C4174,San Diego-Carlsbad,CA
+C4176,Sandpoint,ID
+C4178,Sandusky,OH
+C4182,Sanford,NC
+C4186,San Francisco-Oakland-Hayward,CA
+C4190,San German,PR
+C4194,San Jose-Sunnyvale-Santa Clara,CA
+C4198,San Juan-Carolina-Caguas,PR
+C4202,San Luis Obispo-Paso Robles-Arroyo Grande,CA
+C4206,Santa Barbara-Santa Maria-Goleta,CA
+C4210,Santa Cruz-Watsonville,CA
+C4214,Santa Fe,NM
+C4218,Santa Isabel,PR
+C4220,Santa Maria-Santa Barbara,CA
+C4222,Santa Rosa,CA
+C4226,Sarasota-Bradenton-Venice,FL
+C4230,Sault Ste. Marie,MI
+C4234,Savannah,GA
+C4238,Sayre,PA
+C4242,Scottsbluff,NE
+C4246,Scottsboro,AL
+C4250,Scottsburg,IN
+C4254,Scranton-Wilkes-Barre-Hazleton,PA
+C4258,Seaford,DE
+C4262,Searcy,AR
+C4266,Seattle-Tacoma-Bellevue,WA
+C4268,Sebastian-Vero Beach,FL
+C4270,Sebring,FL
+C4274,Sedalia,MO
+C4278,Selinsgrove,PA
+C4282,Selma,AL
+C4286,Seneca,SC
+C4290,Seneca Falls,NY
+C4294,Sevierville,TN
+C4298,Seymour,IN
+C4302,Shawano,WI
+C4306,Shawnee,OK
+C4310,Sheboygan,WI
+C4314,Shelby,NC
+C4318,Shelbyville,TN
+C4322,Shelton,WA
+C4326,Sheridan,WY
+C4330,Sherman-Denison,TX
+C4332,Show Low,AZ
+C4334,Shreveport-Bossier City,LA
+C4338,Sidney,OH
+C4342,Sierra Vista-Douglas,AZ
+C4346,Sikeston,MO
+C4350,Silver City,NM
+C4354,Silverthorne,CO
+C4358,Sioux City,IA-NE-SD
+C4362,Sioux Falls,SD
+C4366,Snyder,TX
+C4370,Somerset,KY
+C4374,Somerset,PA
+C4376,Sonora,CA
+C4378,South Bend-Mishawaka,IN-MI
+C4386,Southern Pines-Pinehurst,NC
+C4390,Spartanburg,SC
+C4394,Spearfish,SD
+C4398,Spencer,IA
+C4402,Spirit Lake,IA
+C4406,Spokane-Spokane Valley,WA
+C4410,Springfield,IL
+C4414,Springfield,MA
+C4418,Springfield,MO
+C4422,Springfield,OH
+C4426,Starkville,MS
+C4430,State College,PA
+C4434,Statesboro,GA
+C4438,Statesville-Mooresville,NC
+C4442,Staunton-Waynesboro,VA
+C4446,Steamboat Springs,CO
+C4450,Stephenville,TX
+C4454,Sterling,CO
+C4458,Sterling,IL
+C4462,Stevens Point,WI
+C4466,Stillwater,OK
+C4470,Stockton-Lodi,CA
+C4474,Storm Lake,IA
+C4478,Sturgis,MI
+C4486,Sulphur Springs,TX
+C4490,Summerville,GA
+C4492,Summit Park,UT
+C4494,Sumter,SC
+C4498,Sunbury,PA
+C4500,Susanville,CA
+C4502,Sweetwater,TX
+C4506,Syracuse,NY
+C4514,Tahlequah,OK
+C4518,Talladega-Sylacauga,AL
+C4522,Tallahassee,FL
+C4526,Tallulah,LA
+C4530,Tampa-St. Petersburg-Clearwater,FL
+C4534,Taos,NM
+C4538,Taylorville,IL
+C4546,Terre Haute,IN
+C4550,Texarkana,TX-AR
+C4552,The Dalles,OR
+C4554,The Villages,FL
+C4558,Thomaston,GA
+C4562,Thomasville,GA
+C4564,Thomasville-Lexington,NC
+C4566,Tiffin,OH
+C4570,Tifton,GA
+C4574,Toccoa,GA
+C4578,Toledo,OH
+C4582,Topeka,KS
+C4586,Torrington,CT
+C4590,Traverse City,MI
+C4594,Trenton,NJ
+C4598,Troy,AL
+C4602,Truckee-Grass Valley,CA
+C4606,Tucson,AZ
+C4610,Tullahoma-Manchester,TN
+C4614,Tulsa,OK
+C4618,Tupelo,MS
+C4622,Tuscaloosa,AL
+C4626,Tuskegee,AL
+C4630,Twin Falls,ID
+C4634,Tyler,TX
+C4638,Ukiah,CA
+C4642,Union,SC
+C4646,Union City,TN-KY
+C4650,Urbana,OH
+C4652,Urban Honolulu,HI
+C4654,Utica-Rome,NY
+C4658,Utuado,PR
+C4662,Uvalde,TX
+C4666,Valdosta,GA
+C4670,Vallejo-Fairfield,CA
+C4674,Valley,AL
+C4678,Van Wert,OH
+C4682,Vermillion,SD
+C4686,Vernal,UT
+C4690,Vernon,TX
+C4694,Vero Beach,FL
+C4698,Vicksburg,MS
+C4702,Victoria,TX
+C4708,Vidalia,GA
+C4718,Vincennes,IN
+C4722,Vineland-Bridgeton,NJ
+C4724,Vineyard Haven,MA
+C4726,Virginia Beach-Norfolk-Newport News,VA-NC
+C4730,Visalia-Porterville,CA
+C4734,Wabash,IN
+C4738,Waco,TX
+C4742,Wahpeton,ND-MN
+C4746,Walla Walla,WA
+C4750,Walterboro,SC
+C4754,Wapakoneta,OH
+C4758,Warner Robins,GA
+C4762,Warren,PA
+C4766,Warrensburg,MO
+C4770,Warsaw,IN
+C4778,Washington,IN
+C4782,Washington,NC
+C4786,Washington,OH
+C4790,Washington-Arlington-Alexandria,DC-VA-MD-WV
+C4792,Washington Court House,OH
+C4794,Waterloo-Cedar Falls,IA
+C4798,Watertown,SD
+C4802,Watertown-Fort Atkinson,WI
+C4806,Watertown-Fort Drum,NY
+C4810,Wauchula,FL
+C4814,Wausau,WI
+C4818,Waycross,GA
+C4822,Weatherford,OK
+C4826,Weirton-Steubenville,WV-OH
+C4830,Wenatchee,WA
+C4834,West Helena,AR
+C4846,West Plains,MO
+C4850,West Point,MS
+C4854,Wheeling,WV-OH
+C4858,Whitewater-Elkhorn,WI
+C4862,Wichita,KS
+C4866,Wichita Falls,TX
+C4870,Williamsport,PA
+C4874,Willimantic,CT
+C4878,Williston,ND
+C4882,Willmar,MN
+C4890,Wilmington,NC
+C4894,Wilmington,OH
+C4898,Wilson,NC
+C4902,Winchester,VA-WV
+C4906,Winfield,KS
+C4908,Winnemucca,NV
+C4910,Winona,MN
+C4918,Winston-Salem,NC
+C4922,Wisconsin Rapids-Marshfield,WI
+C4926,Woodward,OK
+C4930,Wooster,OH
+C4934,Worcester,MA-CT
+C4938,Worthington,MN
+C4942,Yakima,WA
+C4946,Yankton,SD
+C4950,Yauco,PR
+C4954,Yazoo City,MS
+C4962,York-Hanover,PA
+C4966,Youngstown-Warren-Boardman,OH-PA
+C4970,Yuba City,CA
+C4974,Yuma,AZ
+C4978,Zanesville,OH
+C4982,Zapata,TX
+CS102,Albany-Corvallis-Lebanon,OR
+CS104,Albany-Schenectady,NY
+CS106,Albuquerque-Santa Fe-Las Vegas,NM
+CS108,Amarillo-Borger,TX
+CS112,Ames-Boone,IA
+CS118,Appleton-Oshkosh-Neenah,WI
+CS120,Asheville-Brevard,NC
+CS122,Atlanta-Athens-Clarke County-Sandy Springs,GA
+CS132,Baton Rouge-Pierre Part,LA
+CS138,Beckley-Oak Hill,WV
+CS140,Bend-Redmond-Prineville,OR
+CS142,Birmingham-Hoover-Talladega,AL
+CS144,Bloomington-Bedford,IN
+CS145,Bloomington-Pontiac,IL
+CS146,Bloomsburg-Berwick-Sunbury,PA
+CS147,Boise City-Mountain Home-Ontario,ID-OR
+CS148,Boston-Worcester-Providence,MA-RI-NH-CT
+CS150,Bowling Green-Glasgow,KY
+CS154,Brownsville-Harlingen-Raymondville,TX
+CS160,Buffalo-Cheektowaga,NY
+CS162,Cape Coral-Fort Myers-Naples,FL
+CS164,Cape Girardeau-Sikeston,MO-IL
+CS168,Cedar Rapids-Iowa City,IA
+CS170,Charleston-Huntington-Ashland,WV-OH-KY
+CS172,Charlotte-Concord,NC-SC
+CS174,Chattanooga-Cleveland-Dalton,TN-GA-AL
+CS176,Chicago-Naperville,IL-IN-WI
+CS178,Cincinnati-Wilmington-Maysville,OH-KY-IN
+CS180,Claremont-Lebanon,NH-VT
+CS184,Cleveland-Akron-Canton,OH
+CS185,Cleveland-Indianola,MS
+CS188,Clovis-Portales,NM
+CS190,Columbia-Moberly-Mexico,MO
+CS192,Columbia-Orangeburg-Newberry,SC
+CS194,Columbus-Auburn-Opelika,GA-AL
+CS198,Columbus-Marion-Zanesville,OH
+CS200,Columbus-West Point,MS
+CS202,Corbin-London,KY
+CS204,Corpus Christi-Kingsville-Alice,TX
+CS206,Dallas-Fort Worth,TX-OK
+CS209,Davenport-Moline,IA-IL
+CS212,Dayton-Springfield-Sidney,OH
+CS214,Deltona-Daytona Beach-Palm Coast,FL
+CS216,Denver-Aurora,CO
+CS217,DeRidder-Fort Polk South,LA
+CS218,Des Moines-Ames-West Des Moines,IA
+CS220,Detroit-Warren-Ann Arbor,MI
+CS221,Dixon-Sterling,IL
+CS222,Dothan-Enterprise-Ozark,AL
+CS232,Eau Claire-Menomonie,WI
+CS233,Edwards-Glenwood Springs,CO
+CS236,Elmira-Corning,NY
+CS238,El Paso-Las Cruces,TX-NM
+CS240,Erie-Meadville,PA
+CS242,Fairmont-Clarksburg,WV
+CS244,Fargo-Wahpeton,ND-MN
+CS246,Fayetteville-Lumberton-Laurinburg,NC
+CS248,Findlay-Tiffin,OH
+CS252,Fond du Lac-Beaver Dam,WI
+CS256,Fort Polk South-De Ridder,LA
+CS258,Fort Wayne-Huntington-Auburn,IN
+CS260,Fresno-Madera,CA
+CS264,Gainesville-Lake City,FL
+CS266,Grand Rapids-Wyoming-Muskegon,MI
+CS267,Green Bay-Shawano,WI
+CS268,Greensboro-Winston-Salem-High Point,NC
+CS272,Greenville-Anderson-Seneca,SC
+CS273,Greenville-Spartanburg-Anderson,SC
+CS274,Greenville-Washington,NC
+CS276,Harrisburg-York-Lebanon,PA
+CS277,Harrisonburg-Staunton-Waynesboro,VA
+CS278,Hartford-West Hartford,CT
+CS280,Hickory-Lenoir,NC
+CS284,Hot Springs-Malvern,AR
+CS288,Houston-The Woodlands,TX
+CS290,Huntsville-Decatur-Albertville,AL
+CS292,Idaho Falls-Rexburg-Blackfoot,ID
+CS294,Indianapolis-Carmel-Muncie,IN
+CS296,Ithaca-Cortland,NY
+CS297,Jackson-Humboldt,TN
+CS298,Jackson-Vicksburg-Brookhaven,MS
+CS300,Jacksonville-St. Marys-Palatka,FL-GA
+CS304,Johnson City-Kingsport-Bristol,TN-VA
+CS306,Johnstown-Somerset,PA
+CS308,Jonesboro-Paragould,AR
+CS309,Joplin-Miami,MO-OK
+CS310,Kalamazoo-Battle Creek-Portage,MI
+CS312,Kansas City-Overland Park-Kansas City,MO-KS
+CS314,Knoxville-Morristown-Sevierville,TN
+CS316,Kokomo-Peru,IN
+CS318,Lafayette-Opelousas-Morgan City,LA
+CS320,Lafayette-West Lafayette-Frankfort,IN
+CS324,Lake Charles-Jennings,LA
+CS330,Lansing-East Lansing-Owosso,MI
+CS332,Las Vegas-Henderson,NV-AZ
+CS336,Lexington-Fayette-Richmond-Frankfort,KY
+CS338,Lima-Van Wert-Celina,OH
+CS339,Lincoln-Beatrice,NE
+CS340,Little Rock-North Little Rock,AR
+CS346,Longview-Marshall,TX
+CS348,Los Angeles-Long Beach,CA
+CS350,Louisville-Jefferson County-Elizabethtown-Madison,KY-IN
+CS352,Lubbock-Levelland,TX
+CS354,Lumberton-Laurinburg,NC
+CS356,Macon-Warner Robins,GA
+CS357,Madison-Janesville-Beloit,WI
+CS358,Manhattan-Junction City,KS
+CS359,Mankato-New Ulm-North Mankato,MN
+CS360,Mansfield-Ashland-Bucyrus,OH
+CS362,Martin-Union City,TN-KY
+CS364,Mayaguez-San German,PR
+CS365,McAllen-Edinburg,TX
+CS366,Medford-Grants Pass,OR
+CS368,Memphis-Forrest City,TN-MS-AR
+CS370,Miami-Fort Lauderdale-Port St. Lucie,FL
+CS372,Midland-Odessa,TX
+CS376,Milwaukee-Racine-Waukesha,WI
+CS378,Minneapolis-St. Paul,MN-WI
+CS380,Mobile-Daphne-Fairhope,AL
+CS382,Modesto-Merced,CA
+CS384,Monroe-Ruston-Bastrop,LA
+CS388,Montgomery-Alexander City,AL
+CS390,Morgantown-Fairmont,WV
+CS392,Morristown-Newport,TN
+CS393,Moses Lake-Othello,WA
+CS394,Mount Pleasant-Alma,MI
+CS396,Myrtle Beach-Conway,SC-NC
+CS400,Nashville-Davidson-Murfreesboro,TN
+CS404,New Bern-Morehead City,NC
+CS406,New Orleans-Metairie-Hammond,LA-MS
+CS408,New York-Newark,NY-NJ-CT-PA
+CS412,North Port-Sarasota,FL
+CS416,Oklahoma City-Shawnee,OK
+CS420,Omaha-Council Bluffs-Fremont,NE-IA
+CS422,Orlando-Deltona-Daytona Beach,FL
+CS424,Paducah-Mayfield,KY-IL
+CS425,Parkersburg-Marietta-Vienna,WV-OH
+CS426,Peoria-Canton,IL
+CS428,Philadelphia-Reading-Camden,PA-NJ-DE-MD
+CS430,Pittsburgh-New Castle-Weirton,PA-OH-WV
+CS434,Ponce-Coamo-Santa Isabel,PR
+CS438,Portland-Lewiston-South Portland,ME
+CS440,Portland-Vancouver-Salem,OR-WA
+CS444,Pueblo-Canon City,CO
+CS446,Pullman-Moscow,WA-ID
+CS448,Quincy-Hannibal,IL-MO
+CS450,Raleigh-Durham-Chapel Hill,NC
+CS452,Rapid City-Spearfish,SD
+CS454,Redding-Red Bluff,CA
+CS456,Reno-Carson City-Fernley,NV
+CS458,Richmond-Connersville,IN
+CS462,Rochester-Austin,MN
+CS464,Rochester-Batavia-Seneca Falls,NY
+CS466,Rockford-Freeport-Rochelle,IL
+CS468,Rocky Mount-Wilson-Roanoke Rapids,NC
+CS470,Rome-Summerville,GA
+CS472,Sacramento-Roseville,CA
+CS474,Saginaw-Midland-Bay City,MI
+CS476,St. Louis-St. Charles-Farmington,MO-IL
+CS480,Salisbury-Ocean Pines,MD
+CS482,Salt Lake City-Provo-Orem,UT
+CS488,San Jose-San Francisco-Oakland,CA
+CS490,San Juan-Carolina,PR
+CS492,Santa Fe-Espanola,NM
+CS496,Savannah-Hinesville-Statesboro,GA
+CS500,Seattle-Tacoma,WA
+CS508,Shreveport-Bossier City-Minden,LA
+CS512,Sioux City-Vermillion,IA-SD-NE
+CS515,South Bend-Elkhart-Mishawaka,IN-MI
+CS516,Spartanburg-Gaffney-Union,SC
+CS518,Spokane-Spokane Valley-Coeur d'Alene,WA-ID
+CS520,Springfield-Branson,MO
+CS521,Springfield-Greenfield Town,MA
+CS522,Springfield-Jacksonville-Lincoln,IL
+CS524,State College-DuBois,PA
+CS525,Steamboat Springs-Craig,CO
+CS526,Sunbury-Lewisburg-Selinsgrove,PA
+CS532,Syracuse-Auburn,NY
+CS533,Tallahassee-Bainbridge,FL-GA
+CS534,Toledo-Port Clinton,OH
+CS536,Tucson-Nogales,AZ
+CS538,Tulsa-Muskogee-Bartlesville,OK
+CS540,Tyler-Jacksonville,TX
+CS542,Union City-Martin,TN-KY
+CS544,Victoria-Port Lavaca,TX
+CS545,Virginia Beach-Norfolk,VA-NC
+CS546,Visalia-Porterville-Hanford,CA
+CS548,Washington-Baltimore-Arlington,DC-MD-VA-WV-PA
+CS554,Wausau-Stevens Point-Wisconsin Rapids,WI
+CS556,Wichita-Arkansas City-Winfield,KS
+CS558,Williamsport-Lock Haven,PA
+CS564,York-Hanover-Gettysburg,PA
+CS566,Youngstown-Warren,OH-PA
