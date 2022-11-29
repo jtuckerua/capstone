@@ -7,7 +7,7 @@ import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-import calculations as calcs
+from Data import calculations as calcs
 
 def nav_controls(prefix):
     return [
@@ -33,7 +33,7 @@ app_ui = ui.page_fluid(
         ),
     ))),
     ui.row(
-        ui.input_select("goal", "Financial Goal", ['Buy a Home', 'Improve Quality of Life','Pay off Debt','Retirement'], width='20%'),
+        ui.input_select("goal", "Financial Goal", ["Buy a home", "Improve Quality of Life","Investment Property", "Retire"], width='20%'),
         ui.input_select("industry", "Job Industry", ['Total, all industries','Agriculture, forestry, fishing and hunting','Mining, quarrying, and oil and gas extraction', 'Utilities',
        'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade','Transportation and warehousing', 'Information','Finance and insurance', 'Real estate and rental and leasing',
        'Professional and technical services','Management of companies and enterprises','Administrative and waste services', 'Educational services','Health care and social assistance',
