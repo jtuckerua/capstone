@@ -35,20 +35,25 @@ app_ui = ui.page_fluid(
         ),
     ))),
     ui.row(
-        ui.input_select("goal", "Financial Goal", ["Buy a home", "Improve Quality of Life","Investment Property", "Retire"], width='10%'),
+        ui.input_select("goal", "Financial Goal", ["Buy a home", "Improve Quality of Life","Investment Property", "Retire"], width='20%'),
         ui.input_select("industry", "Job Industry", ['Total, all industries','Agriculture, forestry, fishing and hunting','Mining, quarrying, and oil and gas extraction', 'Utilities',
        'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade','Transportation and warehousing', 'Information','Finance and insurance', 'Real estate and rental and leasing',
        'Professional and technical services','Management of companies and enterprises','Administrative and waste services', 'Educational services','Health care and social assistance',
-       'Arts, entertainment, and recreation','Accommodation and food services','Other services, except public administration','Public administration', 'Unclassified'], width='10%'),
-        ui.input_numeric("sal", "Salary", 10000, min=10000, max=1000000, width='10%'),
-        ui.input_numeric("sav", "Savings", 0, min=0, max=1000000, width='10%'),
+       'Arts, entertainment, and recreation','Accommodation and food services','Other services, except public administration','Public administration', 'Unclassified'], width='20%'),
+        ui.input_numeric("sal", "Salary", 10000, min=10000, max=1000000, width='20%'),
+        ui.input_numeric("sav", "Savings", 0, min=0, max=1000000, width='20%'),
         ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
-        ui.input_text("fam", "Family #", placeholder="enter zipcode", width='10%'),
-        ui.input_numeric("zip", "Current Zip Code", 0, min=10000, max=99999, width='10%'),
-        ui.input_numeric("rent", "Rent", 0, min=0, max=10000, width='10%'),
-        ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "One Bedroom", "Two Bedroom", "Three Bedroom", "Four Bedroom", "Five Bedroom"], width='10%'),
+    ),
+    ui.row(
+        ui.input_numeric("zip", "Current Zip Code", 0, min=10000, max=99999, width='20%'),
+        ui.input_numeric("rent", "Rent", 0, min=0, max=10000, width='20%'),
+        ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "One Bedroom", "Two Bedroom", "Three Bedroom", "Four Bedroom", "Five Bedroom"], width='20%'),
         ui.input_slider("dis", "Distance", value=1, min=1, max=500, step=50, post="mi", width='20%'),
-        ui.input_action_button("predict","Predict", width='10%'),
+        ui.input_checkbox_group("checkbox_item", "Nationwide?", choices=["Yes"], width='10%'),
+        ui.output_ui("ui_select"),
+    ),
+    ui.row(
+        ui.input_action_button("predict","Predict", width='20%'),
         ui.output_text_verbatim("results", placeholder=True)
     ),
 )
@@ -56,6 +61,22 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
     # Initialize map
+    @reactive.Effect
+    def ui_select():
+        x = input.checkbox_item()
+        if x == 'Yes':
+            dis = 'nationwide'
+            ui.remove_ui(selector="div:has(> #dis)")
+            return dis 
+        else: 
+            return
+
+        #return ui.input_select(
+            #"in_select",
+            #label=f"Select input ({len(x)} options)",
+            #choices=x,
+            #selected=None,
+        
     map = L.Map(center=(32.2540,-110.9742), zoom=12, scroll_wheel_zoom=True)
     register_widget("map", map)
     @output
@@ -79,7 +100,7 @@ def server(input, output, session):
             debt.append((input[f"pay{i}"], input[f"int{i}"], input[f"term{i}"]))
         # Get data from database
         # Run calculations
-        results = ctl.calculations([salary, savings, debt, goal, rent, rooms, location,distance,  industry])
+        results = ctl.calculations([salary, savings, debt, goal, rent, rooms, location, distance, industry])
         #Return results 
         return results
     # This function is used to display data that is returned from the db
@@ -147,37 +168,32 @@ def server(input, output, session):
         return fig
 
     # create a function that will be used to update the map whenever the tab is switched
-    @output
-    @render.widget
-    @reactive.event(input.predict)
-    async def map():
-        #get output from calculations
-        results = await predict()
-        
-        # if UI nav is set to city A
-        if input.page_navbar == "City A":
-            # get the zipcode, lat, and long of city A from the results
-            zipcode = results['location_1']['zipcode']
-            lat = results['location_1']['lat']
-            long = results['location_1']['long']
-        # if UI nav is set to city B
-        elif input.page_navbar == "City B":
-            # get the zipcode, lat, and long of city B from the results
-            zipcode = results['location_1']['zipcode']
-            lat = results['location_2']['lat']
-            long = results['location_2']['long']
+    @reactive.Effect
+    async def _():
+        # update the map based on the current UI navigation tab
+        # this function is called every time the UI is updated
 
-        # create a marker for city A
-        marker = L.Marker(location=(lat, long), draggable=False)
-        
-        # add the marker to the map
-        map.add_layer(marker)
+        # get the predict() data
+        #results = await predict()
 
-        # set the map center to city A
-        map.center = (lat, long)
+        # get the current tab
+        tab = input.tab()
 
-        # return the map
-        return map
+        if tab == 'City A':
+            zipcode, lat, long = results['location_1']['zip'], results['location_1']['lat'], results['location_1']['long']
+        elif tab == 'City B':
+            zipcode, lat, long = results['location_2']['zip'], results['location_2']['lat'], results['location_2']['long']
+
+        # update the map
+        map.set_center((lat, long))
+        map.set_zoom(12)
+        map.clear_layers()
+        L.Marker(location=(lat, long)).add_to(map)
+
+        # update the plots
+        # update the output text
+
+        return
     @reactive.Effect
     def _():
         #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements
@@ -187,8 +203,8 @@ def server(input, output, session):
         #beforeEnd, or afterEnd. Selector is based on the id of each UI element and must be formatted how it is in this function. 
         goal = input.goal()
         if goal == "Improve Quality of Life":
-            ui.insert_ui(ui.input_numeric("pay", "Outstanding Debt Amount ($)", 10000, min=10000, max=1000000, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
-            ui.insert_ui(ui.input_numeric("int", "Interest Rate (%)", 1, min=0, max=20, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
+            ui.insert_ui(ui.input_numeric("pay", "Outstanding Debt Amount ($)", 10000, min=10000, max=1000000, width='10%'), selector="div:has(> #checkbox_item)", where="beforeEnd")
+            ui.insert_ui(ui.input_numeric("int", "Interest Rate (%)", 1, min=0, max=20, width='10%'), selector="div:has(> #checkbox_item)", where="beforeEnd")
         elif goal != "Improve Quality of Life":
             ui.remove_ui(selector="div:has(> #pay)")
             ui.remove_ui(selector="div:has(> #int)")
