@@ -7,13 +7,15 @@ import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
+import pandas as pd
 from Data import controller_program as ctl
 from Data import calculations as calcs
 
 def nav_controls(prefix):
     return [
-        ui.nav("City A", prefix + ": tab a content"),
-        ui.nav("City B", prefix + ": tab b content"),
+        ui.nav("City A"),
+        ui.nav("City B"),
     ]
 
     
@@ -84,30 +86,64 @@ def server(input, output, session):
         results = await predict()
         # display results
         return results
-    @render.plot(alt="Test")
-    #These are currently just placeholder plots that are tied to the input_slider.
-    def plot():
-        np.random.seed(19680001)
-        x = 100 + 15 * np.random.randn(437)
-
-        fig, ax = plt.subplots()
-        ax.hist(x, input.dis(), density=True)
-        return fig
+    # make two seaborn histplots to display on the initiali app state, before any data is input
     @output
-    @render.plot(alt="Test")
-    def plot_3():
-        # receive the location and coordinate values from the prediction outputs and
-        # display them on the maps in City A and City B respectively based on the location
-        # values in the prediction outputs
+    @render.plot    
+    @reactive.event(input.predict)
+    async def plot():
+        #get output from calculations
+        results = await predict()
 
-        # get the location and coordinate values from the prediction outputs
-        results = predict()
-        cityA = results['location_1']
-        cityB = results['location_2']
+        zipcode = None
+        lat = None
+        long = None
+        
+        # create an initial seaborn plot
+        fig, ax = plt.subplots()
 
-        # get the coordinate values from the prediction outputs
-        
-        
+        # get the data
+        rent = pd.read_csv('Data/Clean/rent.csv')
+
+        # filter the data to only the outputted zipcode
+        rent = rent[rent['ZIP Code'] == zipcode]
+
+        # create the plot
+        sns.histplot(data=rent, x="Rent", kde=True, ax=ax)
+
+        # set the title
+        ax.set_title(f"Rent in {zipcode}")
+
+        # return the plot
+        return fig
+
+    @output
+    @render.plot
+    @reactive.event(input.predict)
+    async def plot_3():
+        #get output from calculations
+        results = await predict()
+
+        zipcode = None
+
+        # create an initial seaborn plot
+        fig, ax = plt.subplots()
+
+        # get the data
+        wages = pd.read_csv('Data/Clean/cln_wages.csv')
+
+        # modify the data to the city and industry data
+        wages = wages[wages['City'] == 'Tucson']
+        wages = wages[wages['Industry'] == 'Total, all industries']
+
+        # create the plot
+        sns.histplot(data=wages, x="Rent", kde=True, ax=ax)
+
+        # set the title
+        ax.set_title(f"Wages in {zipcode}")
+
+        # return the plot
+        return fig
+     
     @reactive.Effect
     def _():
         #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements
