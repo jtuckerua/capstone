@@ -7,7 +7,8 @@ import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-from Data import controller as ctl
+from Data import controller_program as ctl
+from Data import calculations as calcs
 
 def nav_controls(prefix):
     return [
@@ -94,12 +95,18 @@ def server(input, output, session):
     @output
     @render.plot(alt="Test")
     def plot_3():
-        np.random.seed(12680001)
-        x = 100 + 15 * np.random.randn(437)
+        # receive the location and coordinate values from the prediction outputs and
+        # display them on the maps in City A and City B respectively based on the location
+        # values in the prediction outputs
 
-        fig, ax = plt.subplots()
-        ax.hist(x, input.dis(), density=True)
-        return fig
+        # get the location and coordinate values from the prediction outputs
+        results = predict()
+        cityA = results['location_1']
+        cityB = results['location_2']
+
+        # get the coordinate values from the prediction outputs
+        
+        
     @reactive.Effect
     def _():
         #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements
@@ -108,26 +115,13 @@ def server(input, output, session):
         #must specify a selector and tell it where to place the new ui element relative to the selector. where can = beforeBegin, afterBegin,
         #beforeEnd, or afterEnd. Selector is based on the id of each UI element and must be formatted how it is in this function. 
         goal = input.goal()
-        if goal == "Pay off Debt":
+        if goal == "Improve Quality of Life":
             ui.insert_ui(ui.input_numeric("pay", "Outstanding Debt Amount ($)", 10000, min=10000, max=1000000, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
             ui.insert_ui(ui.input_numeric("int", "Interest Rate (%)", 1, min=0, max=20, width='10%'), selector="div:has(> #predict)", where="beforeEnd")
-        elif goal != "Pay off Debt":
+        elif goal != "Improve Quality of Life":
             ui.remove_ui(selector="div:has(> #pay)")
             ui.remove_ui(selector="div:has(> #int)")
             return
 
-    @reactive.Effect
-    def _():
-        # dynamically changes map coordinates to city A and city B based on the data returned from the predictions function
-        # this function also adds a marker to the map for city A and city B and displays the results of the calculations
-        # when the marker is clicked.
-        results = output.location()
-        city_a = results[0]
-        city_b = results[1]
-        map = get_widget("map")
-        map.clear_layers()
-        map.add_layer(L.Marker(location=(city_a[1], city_a[2]), popup=city_a[0]))
-        map.add_layer(L.Marker(location=(city_b[1], city_b[2]), popup=city_b[0]))
-        map.fit_bounds([(city_a[1], city_a[2]), (city_b[1], city_b[2])])
-        return
+    
 app = App(app_ui, server)
