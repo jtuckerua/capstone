@@ -68,6 +68,8 @@ def server(input, output, session):
         salary = input.sal
         savings = input.sav
         rent = input.rent
+        rooms = input.bedrooms
+        distance = input. dis
         location = input.loc
         # get debt data from input as a list of 3-element integer tuples (pay, int, term)
         # where each tuple corresponds to a financial goal and the list is the
@@ -77,8 +79,8 @@ def server(input, output, session):
             debt.append((input[f"pay{i}"], input[f"int{i}"], input[f"term{i}"]))
         # Get data from database
         # Run calculations
-        results = ctl.calculations([salary, savings, debt, goal, rent, location, industry])
-        #Return results
+        results = ctl.calculations([salary, savings, debt, goal, rent, rooms, location,distance,  industry])
+        #Return results 
         return results
     # This function is used to display data that is returned from the db
     async def results():
