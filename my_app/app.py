@@ -7,13 +7,14 @@ import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
 import numpy as np
-from Data import controller as ctl
+import controller
+# from shiny import *
 
 def nav_controls(prefix):
     return [
         ui.nav("City A", prefix + ": tab a content"),
-        ui.nav("City B", prefix + ": tab b content"),
-        ui.nav("City C", prefix + ": tab c content"),
+        # ui.nav("City B", prefix + ": tab b content"),
+        # ui.nav("City C", prefix + ": tab c content")
     ]
 
     
@@ -23,14 +24,15 @@ app_ui = ui.page_fluid(
     # and two dropdown menus that will be used to select data from the database
     # the navbar will also have a slider that will be used to change the size of the plots
     #Row tells shiny that these UI elements should be next to eachother horizontally.
+    # ui.output_text("report_check"),
     ui.row(
         ui.page_navbar(*nav_controls("page_navbar"), title="Capstone", bg="#0062cc", inverse=True, id="navbar_id",
     footer=ui.div(
         ui.row(
             ui.column(4, output_widget("map")),
             ui.column(4, ui.output_plot("plot")),
-            ui.column(4, ui.output_plot("plot_3")),
-        ),
+            ui.column(4, ui.output_plot("plot_3"))
+        )
     ))),
     ui.row(
         ui.input_select("goal", "Financial Goal", ["Buy a home", "Improve Quality of Life","Investment Property", "Retire"], width='20%'),
@@ -68,7 +70,7 @@ def server(input, output, session):
         location = input.loc
         debt = input.debt
         # Run calculations
-        results = ctl.calculations([salary, savings, debt, goal, rent, location, industry])
+        results = controller.calculations([salary, savings, debt, goal, rent, location, industry])
         # Return results
         return results
     # This function is used to display data that is returned from the db
@@ -87,10 +89,10 @@ def server(input, output, session):
 
     @reactive.event(input.predict)
     # change city B to the city returned by the results fuction
-    @output("page_navbar: tab b content")
-    @render.text
-    async def city_b():
-        return await results()
+    # @output("page_navbar: tab b content")
+    # @render.text
+    # async def city_b():
+    #     return await results()
     #output and render.plot need to be called before every plot for it to load.
     @output
     @render.plot(alt="Test")
@@ -126,4 +128,4 @@ def server(input, output, session):
             ui.remove_ui(selector="div:has(> #pay)")
             ui.remove_ui(selector="div:has(> #int)")
             return
-app = App(app_ui, server)
+app = App(app_ui, server, debug=True)
