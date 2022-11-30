@@ -35,7 +35,7 @@ app_ui = ui.page_fluid(
         ),
     ))),
     ui.row(
-        ui.input_select("goal", "Financial Goal", ["Buy a home", "Improve Quality of Life","Investment Property", "Retire"], width='20%'),
+        ui.input_select("goal", "Financial Goal", ["Buy a home", "Improve Quality of Life","Investment Property"], width='20%'),
         ui.input_select("industry", "Job Industry", ['Total, all industries','Agriculture, forestry, fishing and hunting','Mining, quarrying, and oil and gas extraction', 'Utilities',
        'Construction', 'Manufacturing', 'Wholesale trade', 'Retail trade','Transportation and warehousing', 'Information','Finance and insurance', 'Real estate and rental and leasing',
        'Professional and technical services','Management of companies and enterprises','Administrative and waste services', 'Educational services','Health care and social assistance',
@@ -90,7 +90,7 @@ def server(input, output, session):
         savings = input.sav
         rent = input.rent
         rooms = input.bedrooms
-        distance = input. dis
+        distance = input.dis
         location = input.loc
         # get debt data from input as a list of 3-element integer tuples (pay, int, term)
         # where each tuple corresponds to a financial goal and the list is the
