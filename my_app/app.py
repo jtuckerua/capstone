@@ -142,7 +142,39 @@ def server(input, output, session):
 
         # return the plot
         return fig
-     
+
+    # create a function that will be used to update the map whenever the tab is switched
+    @output
+    @render.widget
+    @reactive.event(input.predict)
+    async def map():
+        #get output from calculations
+        results = await predict()
+        
+        # if UI nav is set to city A
+        if input.page_navbar == "City A":
+            # get the zipcode, lat, and long of city A from the results
+            zipcode = results['location_1']['zipcode']
+            lat = results['location_1']['lat']
+            long = results['location_1']['long']
+        # if UI nav is set to city B
+        elif input.page_navbar == "City B":
+            # get the zipcode, lat, and long of city B from the results
+            zipcode = results['location_1']['zipcode']
+            lat = results['location_2']['lat']
+            long = results['location_2']['long']
+
+        # create a marker for city A
+        marker = L.Marker(location=(lat, long), draggable=False)
+        
+        # add the marker to the map
+        map.add_layer(marker)
+
+        # set the map center to city A
+        map.center = (lat, long)
+
+        # return the map
+        return map
     @reactive.Effect
     def _():
         #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements
