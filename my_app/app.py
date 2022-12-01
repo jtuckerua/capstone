@@ -10,7 +10,7 @@ import numpy as np
 import seaborn as sns
 import pandas as pd
 from Data import controller_program as ctl
-from Data import calculations as calcs
+
 
 def nav_controls(prefix):
     return [
@@ -100,7 +100,7 @@ def server(input, output, session):
             debt.append((input[f"pay{i}"], input[f"int{i}"], input[f"term{i}"]))
         # Get data from database
         # Run calculations
-        results = ctl.calculations([salary, savings, debt, goal, rent, rooms, location, distance, industry])
+        results = ctl.calcs([salary, savings, debt, goal, rent, rooms, location, distance, industry])
         #Return results 
         return results
     # This function is used to display data that is returned from the db

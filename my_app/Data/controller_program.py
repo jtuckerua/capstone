@@ -1,6 +1,14 @@
 import pandas as pd
-from Calculations import *
-from location import *
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
+
+
+
+"""
+Below are all of the control flow functions!
+***********************************************
+
+"""
 industries = { 'Total, all industries': '10',
                 'Agriculture, forestry, fishing and hunting':'11',
                 'Mining, quarrying, and oil and gas extraction':'21',
@@ -24,10 +32,9 @@ industries = { 'Total, all industries': '10',
                 'Public administration':'92',
                 'Unclassified':'99'}
 
-
 retval = {}
 
-def calculations(data):
+def calcs(data):
   """
   Salary = data[0]
   savings = data[1]
@@ -81,7 +88,76 @@ def get_industry_loc(df):
   lf = pd.read_csv('./Clean/location_codes.csv')
   return lf[lf['area_fips'].isin(df['area_fips'].values)]
 
-# def get_rent(data, ):
-#   locs = []
-#   for line in data:
-#     location.location_info()
+
+
+
+
+"""
+Below are all of the calculation functions!
+********************************************
+"""
+
+
+def calc_home_buy(salary):
+    """
+    Calculate the amount of home afforded based on salary
+    Returns the down payment and the amount of house for both 15 and 30 year
+    """
+    m_sal =  salary * .28
+    return ((m_sal * 15,(m_sal * 15)*.1), (m_sal * 30,(m_sal * 30)*.1))
+
+def total_debt(data):
+    """
+    calc totat debt amount
+    """
+    tot = 0
+    for i in data:
+        tot += int(i[0])
+    return tot
+    
+
+def savings(savings, salary, goal):
+    """
+    takes current savings, current salary, and goal
+    and calculates how long until that goal is reached. 
+    returns the amount of months to reach goal.
+    """
+    dif = goal - savings
+    return dif / (salary/12)*.2
+
+def d_income(salary, rent):
+    """
+    Calculate the disposable income index
+    """
+    return (salary/12) - rent 
+
+
+
+
+"""
+Below are all of the location functions!
+******************************************
+"""
+
+coder = Nominatim(user_agent='geopytest')
+
+def get_info(location):
+    return coder.geocode(location)
+
+def distance_calc(location1, location2):
+    """
+    input: current location and radius
+    output: all cities within the radius
+    """
+    return geodesic(location1[1], location2[1]).miles
+    
+def get_rent(locs, rooms):
+    rent = pd.read_csv('./Clean/rent.csv')
+
+def confirm_dist(current_location, locations, range):
+    """
+    receives a list of locations and check if they are within the specified range. 
+    if not, they are removed from the list. If so, then they get to stay.
+    """
+
+    # for location in locations:
