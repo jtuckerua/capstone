@@ -39,10 +39,8 @@ def calculations(data):
   distance = data[7]
   industry = data[8]
   """
-
-  retval['Current Location'] = [d_income(data[0],data[4]), data[4], get_info(data[6])[1]]
-  
-  
+  cur_location = get_info(data[6])
+  retval['Current Location'] = [d_income(data[0],data[4]), data[4], cur_location[1]]
   
   """
   Receives a goal and procedes with teh proper calcs for achieving the gaol
@@ -59,8 +57,7 @@ def calculations(data):
       ind_df = get_industry_df(industries.get(str(data[8])))
       #convert fips to city and state
       locs = get_industry_loc(ind_df)
-      locs = location.confirm_locations(locs)
-      rent = location.get_rent(locs.values, data[5])
+      confirm_dist(locs)
 
   if data[3] == "Improve quality of life":
       """
@@ -82,7 +79,7 @@ def get_industry_loc(df):
   returns the top ten cities for the industry 
   """
   lf = pd.read_csv('./Clean/location_codes.csv')
-  return lf[lf['area_fips'].isin(df['area_fips'].values)].loc[:,['City','State']]
+  return lf[lf['area_fips'].isin(df['area_fips'].values)]
 
 # def get_rent(data, ):
 #   locs = []

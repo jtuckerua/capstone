@@ -6,12 +6,10 @@ from Data import location
 def calc_home_buy(salary):
     """
     Calculate the amount of home afforded based on salary
-    Returns the down payment and the amount of house
+    Returns the down payment and the amount of house for both 15 and 30 year
     """
     m_sal =  salary * .28
-    return (m_sal * 15, m_sal * 30)
-
-
+    return ((m_sal * 15,(m_sal * 15)*.1), (m_sal * 30,(m_sal * 30)*.1))
 
 def total_debt(data):
     """
@@ -23,11 +21,14 @@ def total_debt(data):
     return tot
     
 
-def savings(salary, rate):
+def savings(savings, salary, goal):
     """
-    calculates expected savings 
+    takes current savings, current salary, and goal
+    and calculates how long until that goal is reached. 
+    returns the amount of months to reach goal.
     """
-    return salary * rate
+    dif = goal - savings
+    return dif / (salary/12)*.2
 
 def d_income(salary, rent):
     """
