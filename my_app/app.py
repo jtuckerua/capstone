@@ -79,8 +79,7 @@ def server(input, output, session):
         
     map = L.Map(center=(32.2540,-110.9742), zoom=12, scroll_wheel_zoom=True)
     register_widget("map", map)
-    @output
-    @render.text
+
     @reactive.event(input.predict)
     async def predict():
         #Get input data
@@ -103,23 +102,12 @@ def server(input, output, session):
         results = ctl.calcs([salary, savings, debt, goal, rent, rooms, location, industry])
         #Return results 
         return results
-    # This function is used to display data that is returned from the db
-    async def results():
-        #get output from calculations
-        results = predict()
-        # display results
-        return results
     # make two seaborn histplots to display on the initiali app state, before any data is input
     @output
     @render.plot
     @reactive.event(input.predict)
     async def plot():
-        #get output from calculations
-        results = predict()
-
-        zipcode = None
-        lat = None
-        long = None
+        city, _, _, _ = locate()
         
         # create an initial seaborn plot
         fig, ax = plt.subplots()
@@ -130,25 +118,19 @@ def server(input, output, session):
         # filter the data to only the outputted zipcode
         rent = rent[rent['ZIP Code'] == zipcode]
 
-        # create the plot
-        sns.histplot(data=rent, x="Rent", kde=True, ax=ax)
-
         # set the title
-        ax.set_title(f"Rent in {zipcode}")
+        ax.set_title(f"Rent in {city}")
 
         # return the plot
-        return fig
+        return sns.histplot(data=rent, x="Rent", kde=True, ax=ax)
 
     @output
     @render.plot
     @reactive.event(input.predict)
     async def plot_3():
         #get output from calculations
-        results = predict()
-
-        # location = results[]
-
-        zipcode = None
+        results = locate()
+        lat, lon = results['Current Location'][3]
 
         # create an initial seaborn plot
         fig, ax = plt.subplots()
@@ -160,14 +142,11 @@ def server(input, output, session):
         wages = wages[wages['City'] == 'Tucson']
         wages = wages[wages['Industry'] == 'Total, all industries']
 
-        # create the plot
-        sns.histplot(data=wages, x="Rent", kde=True, ax=ax)
-
         # set the title
-        ax.set_title(f"Wages in {zipcode}")
+        ax.set_title(f"Wages in {City}")
 
         # return the plot
-        return fig
+        return  sns.histplot(data=wages, x="Rent", kde=True, ax=ax)
 
     # create a function that will be used to update the map whenever the tab is switched
     @reactive.Calc
@@ -179,14 +158,12 @@ def server(input, output, session):
         tab = input.tab()
 
         if tab == 'City A':
-            city = results['Location one'][0][0]
-            state = results['Location one'][0][1]
-            lat, lon = results['Current Location'][3]
+            city = results['Location one'][1][0].split(',')[0]
+            lat, lon = results['Location one'][1][1]
 
         elif tab == 'City B':
-            city = results['Location two'][0][0]
+            city = results['Location two'][1][0].split(',')[0]
             state = results['Location two'][0][1]
-            lat, lon = results['Current Location'][3]
         return city, state, lat, lon
 
     @output
@@ -201,8 +178,16 @@ def server(input, output, session):
         map.set_zoom(12)
         map.clear_layers()
         L.Marker(location=(lat, lon)).add_to(map)
+        return map
+
+    @output
+    @render.ui
+    def update():
+        map()
+        plot()
+        plot_3()
         return
-        
+
     @reactive.Effect
     def _():
         #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements

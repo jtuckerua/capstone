@@ -58,9 +58,9 @@ def calcs(data):
   ind_df = get_industry_df(industries.get(str(data[8])))
   #convert fips to city and state
   locs = get_industry_loc(ind_df)
-  retval['Location one'] = [ind_df['avg_annual_pay'][0],locs[0][1]]
-  retval['Location two'] = [ind_df['avg_annual_pay'][1],locs[1][1]]
-  retval['Location three'] = [ind_df['avg_annual_pay'][2],locs[2][1]]
+  retval['Location one'] = [ind_df['avg_annual_pay'][0],locs[0]]
+  retval['Location two'] = [ind_df['avg_annual_pay'][1],locs[0]]
+  retval['Location three'] = [ind_df['avg_annual_pay'][2],locs[0]]
   return retval
   
   # if data[3] == "Buy a home":
