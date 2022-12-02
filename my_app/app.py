@@ -11,6 +11,10 @@ import seaborn as sns
 import pandas as pd
 from Data import controller_program as ctl
 
+sns.set_theme()
+
+rent_df = pd.read_csv('Data/Clean/rent.csv')
+wages_df = pd.read_csv('Data/Clean/cln_wages.csv')
 
 def nav_controls(prefix):
     return [
@@ -60,7 +64,7 @@ app_ui = ui.page_fluid(
         
 
 def server(input, output, session):
-    # Initialize map
+
     @reactive.Effect
     def ui_select():
         x = input.checkbox_item()
@@ -70,89 +74,20 @@ def server(input, output, session):
             return dis 
         else: 
             return
-
-        #return ui.input_select(
-            #"in_select",
-            #label=f"Select input ({len(x)} options)",
-            #choices=x,
-            #selected=None,
         
+    # Initialize map
     map = L.Map(center=(32.2540,-110.9742), zoom=12, scroll_wheel_zoom=True)
     register_widget("map", map)
 
-    @reactive.event(input.predict)
-    async def predict():
-        #Get input data
-        goal = input.goal
-        industry = input.industry
-        salary = input.sal
-        savings = input.sav
-        rent = input.rent
-        rooms = input.bedrooms
-        # distance = input.dis
-        location = input.loc
-        # get debt data from input as a list of 3-element integer tuples (pay, int, term)
-        # where each tuple corresponds to a financial goal and the list is the
-        # debt for each goal
+    # create a function that will be used to update the map whenever the tab is switched
+    @reactive.Calc
+    def predict():
         debt = []
         for i in range(1, 4):
             debt.append((input[f"pay{i}"], input[f"int{i}"], input[f"term{i}"]))
         # Get data from database
         # Run calculations
-        results = ctl.calcs([salary, savings, debt, goal, rent, rooms, location, industry])
-        #Return results 
-        return results
-    # make two seaborn histplots to display on the initiali app state, before any data is input
-    @output
-    @render.plot
-    @reactive.event(input.predict)
-    async def plot():
-        city, _, _, _ = locate()
-        
-        # create an initial seaborn plot
-        fig, ax = plt.subplots()
-
-        # get the data
-        rent = ctl.get_rent()
-
-        # filter the data to only the outputted zipcode
-        rent = rent[rent['ZIP Code'] == zipcode]
-
-        # set the title
-        ax.set_title(f"Rent in {city}")
-
-        # return the plot
-        return sns.histplot(data=rent, x="Rent", kde=True, ax=ax)
-
-    @output
-    @render.plot
-    @reactive.event(input.predict)
-    async def plot_3():
-        #get output from calculations
-        results = locate()
-        lat, lon = results['Current Location'][3]
-
-        # create an initial seaborn plot
-        fig, ax = plt.subplots()
-
-        # get the data
-        wages = pd.read_csv('Data/Clean/cln_wages.csv')
-
-        # modify the data to the city and industry data
-        wages = wages[wages['City'] == 'Tucson']
-        wages = wages[wages['Industry'] == 'Total, all industries']
-
-        # set the title
-        ax.set_title(f"Wages in {City}")
-
-        # return the plot
-        return  sns.histplot(data=wages, x="Rent", kde=True, ax=ax)
-
-    # create a function that will be used to update the map whenever the tab is switched
-    @reactive.Calc
-    def locate():
-        # get the predict() data
-        results = predict()
+        results = ctl.calcs([input.salary, input.savings, debt, input.goal, input.rent, input.rooms, input.location, input.industry])
 
         # get the current tab
         tab = input.tab()
@@ -166,10 +101,59 @@ def server(input, output, session):
             state = results['Location two'][0][1]
         return city, state, lat, lon
 
+    # make two seaborn histplots to display on the initiali app state, before any data is input
+    @output
+    @render.plot
+    async def plot():
+        city, _, _, _ = predict()
+        
+        # create an initial seaborn plot
+        fig, ax = plt.subplots()
+
+        # get the data
+        rent = pd.read_csv('/Data/Clean/rent.csv')
+
+        # filter the data to only the outputted zipcode
+        rent = rent[rent['ZIP Code'] == zipcode]
+
+        # set the title
+        ax.set_title(f"Rent in {city}")
+
+        # plot the data
+        sns.histplot(rent, x="Rent", ax=ax)
+
+        # return the plot
+        return sns.histplot(data=rent, x="Rent", kde=True, ax=ax)
+
+    @output
+    @render.plot
+    async def plot_3():
+        #get output from calculations
+        city, _, _, _ = predict()
+
+        # create an initial seaborn plot
+        fig, ax = plt.subplots()
+
+        # get the data
+        wages = pd.read_csv('Data/Clean/cln_wages.csv')
+
+        # modify the data to the city and industry data
+        wages = wages[wages['City'] == 'Tucson']
+        wages = wages[wages['Industry'] == 'Total, all industries']
+
+        # set the title
+        ax.set_title(f"Wages in {city}")
+
+        # plot the data
+        sns.histplot(wages, x="Wages", ax=ax)
+
+        # return the plot
+        return sns.histplot(data=wages, x="Wages", kde=True, ax=ax)
+
     @output
     @render.ui
     def map():
-        city, state, lat, lon = locate()
+        city, state, lat, lon = predict()
         # update the panel title
         ui.panel_title(city + ' ' + state + ' ' + 'Map', 'Capstone')
 
@@ -179,14 +163,6 @@ def server(input, output, session):
         map.clear_layers()
         L.Marker(location=(lat, lon)).add_to(map)
         return map
-
-    @output
-    @render.ui
-    def update():
-        map()
-        plot()
-        plot_3()
-        return
 
     @reactive.Effect
     def _():
@@ -203,6 +179,4 @@ def server(input, output, session):
             ui.remove_ui(selector="div:has(> #pay)")
             ui.remove_ui(selector="div:has(> #int)")
             return
-
-    
 app = App(app_ui, server)
