@@ -1,7 +1,7 @@
 from logging import PlaceHolder
 from tkinter import CENTER
 from turtle import width
-from shiny import App, render, ui, reactive
+from shiny import App, render, ui, reactive, Outputs
 from shinywidgets import output_widget, register_widget, reactive_read
 import asyncio
 import ipyleaflet as L
@@ -106,16 +106,16 @@ def server(input, output, session):
     # This function is used to display data that is returned from the db
     async def results():
         #get output from calculations
-        results = await predict()
+        results = predict()
         # display results
         return results
     # make two seaborn histplots to display on the initiali app state, before any data is input
     @output
-    @render.plot    
+    @render.plot
     @reactive.event(input.predict)
     async def plot():
         #get output from calculations
-        results = await predict()
+        results = predict()
 
         zipcode = None
         lat = None
@@ -125,7 +125,7 @@ def server(input, output, session):
         fig, ax = plt.subplots()
 
         # get the data
-        rent = pd.read_csv('Data/Clean/rent.csv')
+        rent = ctl.get_rent()
 
         # filter the data to only the outputted zipcode
         rent = rent[rent['ZIP Code'] == zipcode]
@@ -144,7 +144,9 @@ def server(input, output, session):
     @reactive.event(input.predict)
     async def plot_3():
         #get output from calculations
-        results = await predict()
+        results = predict()
+
+        # location = results[]
 
         zipcode = None
 
@@ -168,30 +170,39 @@ def server(input, output, session):
         return fig
 
     # create a function that will be used to update the map whenever the tab is switched
-    @reactive.Effect
+    @reactive.Effect(input.predict)
     async def _():
         # update the map based on the current UI navigation tab
         # this function is called every time the UI is updated
 
         # get the predict() data
-        #results = await predict()
+        results = predict()
 
         # get the current tab
         tab = input.tab()
 
         if tab == 'City A':
-            zipcode, lat, long = results['location_1']['zip'], results['location_1']['lat'], results['location_1']['long']
+            city = results['Location one'][0][0]
+            state = results['Location one'][0][1]
+            lat, lon = results['Current Location'][3]
+
         elif tab == 'City B':
-            zipcode, lat, long = results['location_2']['zip'], results['location_2']['lat'], results['location_2']['long']
+            city = results['Location two'][0][0]
+            state = results['Location two'][0][1]
+            lat, lon = results['Current Location'][3]
+
+        # update the panel title
+        ui.panel_title(city + ' ' + state + ' ' + 'Map', 'Capstone')
 
         # update the map
-        map.set_center((lat, long))
+        map.set_center((lat, lon))
         map.set_zoom(12)
         map.clear_layers()
-        L.Marker(location=(lat, long)).add_to(map)
+        L.Marker(location=(lat, lon)).add_to(map)
 
         # update the plots
-        # update the output text
+        await plot()
+        await plot_3()
 
         return
     @reactive.Effect
