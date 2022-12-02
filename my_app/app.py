@@ -87,7 +87,7 @@ def server(input, output, session):
             debt.append((input[f"pay{i}"], input[f"int{i}"], input[f"term{i}"]))
         # Get data from database
         # Run calculations
-        results = ctl.calcs([input.salary, input.savings, debt, input.goal, input.rent, input.rooms, input.location, input.industry])
+        results = ctl.calcs([input.sal, input.sav, debt, input.goal, input.rent, input.bedrooms, input.location, input.industry])
 
         # get the current tab
         tab = input.tab()
