@@ -32,7 +32,8 @@ industries = { 'Total, all industries': '10',
                 'Public administration':'92',
                 'Unclassified':'99'}
 
-retval = {}
+retval = {
+}
 
 def calcs(data):
   """
@@ -43,8 +44,7 @@ def calcs(data):
   rent = data[4]
   bedroom = data[5]
   location = data[6]
-  distance = data[7]
-  industry = data[8]
+  industry = data[7]
   """
   cur_location = get_info(data[6])
   retval['Current Location'] = [d_income(data[0],data[4]), data[4], cur_location[1]]
@@ -53,41 +53,47 @@ def calcs(data):
   Receives a goal and procedes with teh proper calcs for achieving the gaol
   "Buy a home", "Save money","Pay off debt", "Retire"
   """
-  
-  if data[3] == "Buy a home":
-      """
-      calculate how much house they can afford and the down payment.
-      calculate where they can buy the home based on locations returned from industry.
-      Data Used: industry dataset, rent dataset, 
-      """
-      #collect industry dataframe
-      ind_df = get_industry_df(industries.get(str(data[8])))
-      #convert fips to city and state
-      locs = get_industry_loc(ind_df)
-      confirm_dist(locs)
 
-  if data[3] == "Improve quality of life":
-      """
-      the goal is to improve the dii by as much as possible.
-      """
-  if data[3] == "Investment Property":
-      pass
+  #collect industry dataframe
+  ind_df = get_industry_df(industries.get(str(data[8])))
+  #convert fips to city and state
+  locs = get_industry_loc(ind_df)
+  retval['Location one'] = [locs[0], ind_df['avg_annual_pay'][0]]
+  retval['Location two'] = [locs[1], ind_df['avg_annual_pay'][1]]
+  retval['Location three'] = [locs[2], ind_df['avg_annual_pay'][2]]
+  return retval
+  
+  # if data[3] == "Buy a home":
+  #     """
+  #     calculate how much house they can afford and the down payment.
+  #     calculate where they can buy the home based on locations returned from industry.
+  #     Data Used: industry dataset, rent dataset, 
+  #     """
+  #     return retval
+  # if data[3] == "Improve quality of life":
+  #     """
+  #     the goal is to improve the dii by as much as possible.
+  #     """
+  #     return retval
+  # if data[3] == "Investment Property":
+  #   return retval
+
 
 def get_industry_df(industry):
   """
-  collect the top ten rows for employee level by industry.
+  collect the top three rows for employee level by industry.
+  return the fips and their average annual pay
   """
   df = pd.read_csv('./Clean/location_industry.csv')
-  # codes = df['industry_code'].unique()
-  return df[df['industry_code'] == industry].sort_values('annual_avg_emplvl', axis=0, ascending=False)[:10]
+  return df[df['industry_code'] == industry].sort_values('annual_avg_emplvl', axis=0, ascending=False)[:3].loc[:,['area_fips','avg_annual_pay']]
 
 def get_industry_loc(df):
   """
-  returns the top ten cities for the industry 
+  returns the top cities for the industry 
   """
   lf = pd.read_csv('./Clean/location_codes.csv')
-  return lf[lf['area_fips'].isin(df['area_fips'].values)]
-
+  tmp = lf[lf['area_fips'].isin(df['area_fips'].values)].loc[:,['City','State']]
+  return (",".join(tmp.values[0]),",".join(tmp.values[1]),",".join(tmp.values[2]))
 
 
 
@@ -154,10 +160,6 @@ def distance_calc(location1, location2):
 def get_rent(locs, rooms):
     rent = pd.read_csv('./Clean/rent.csv')
 
-def confirm_dist(current_location, locations, range):
-    """
-    receives a list of locations and check if they are within the specified range. 
-    if not, they are removed from the list. If so, then they get to stay.
-    """
 
-    # for location in locations:
+
+
