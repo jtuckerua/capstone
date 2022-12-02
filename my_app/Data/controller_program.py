@@ -58,9 +58,9 @@ def calcs(data):
   ind_df = get_industry_df(industries.get(str(data[8])))
   #convert fips to city and state
   locs = get_industry_loc(ind_df)
-  retval['Location one'] = [locs[0], ind_df['avg_annual_pay'][0]]
-  retval['Location two'] = [locs[1], ind_df['avg_annual_pay'][1]]
-  retval['Location three'] = [locs[2], ind_df['avg_annual_pay'][2]]
+  retval['Location one'] = [locs[0][1], ind_df['avg_annual_pay'][0]]
+  retval['Location two'] = [locs[1][1], ind_df['avg_annual_pay'][1]]
+  retval['Location three'] = [locs[2][1], ind_df['avg_annual_pay'][2]]
   return retval
   
   # if data[3] == "Buy a home":
@@ -93,7 +93,7 @@ def get_industry_loc(df):
   """
   lf = pd.read_csv('./Clean/location_codes.csv')
   tmp = lf[lf['area_fips'].isin(df['area_fips'].values)].loc[:,['City','State']]
-  return (",".join(tmp.values[0]),",".join(tmp.values[1]),",".join(tmp.values[2]))
+  return (get_info(",".join(tmp.values[0])),get_info(",".join(tmp.values[1])),get_info(",".join(tmp.values[2])))
 
 
 
