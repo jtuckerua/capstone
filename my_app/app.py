@@ -170,11 +170,8 @@ def server(input, output, session):
         return fig
 
     # create a function that will be used to update the map whenever the tab is switched
-    @reactive.Effect(input.predict)
-    async def _():
-        # update the map based on the current UI navigation tab
-        # this function is called every time the UI is updated
-
+    @reactive.Calc
+    def locate():
         # get the predict() data
         results = predict()
 
@@ -190,7 +187,12 @@ def server(input, output, session):
             city = results['Location two'][0][0]
             state = results['Location two'][0][1]
             lat, lon = results['Current Location'][3]
+        return city, state, lat, lon
 
+    @output
+    @render.ui
+    def map():
+        city, state, lat, lon = locate()
         # update the panel title
         ui.panel_title(city + ' ' + state + ' ' + 'Map', 'Capstone')
 
@@ -199,12 +201,8 @@ def server(input, output, session):
         map.set_zoom(12)
         map.clear_layers()
         L.Marker(location=(lat, lon)).add_to(map)
-
-        # update the plots
-        await plot()
-        await plot_3()
-
         return
+        
     @reactive.Effect
     def _():
         #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements
