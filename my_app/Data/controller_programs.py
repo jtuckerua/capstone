@@ -1,7 +1,7 @@
 import pandas as pd
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
-
+from shiny import App, render, ui, reactive, Outputs
 
 
 """
@@ -47,7 +47,7 @@ def calcs(data):
   industry = data[7]
   """
   cur_location = get_info(data[6])
-  retval['Current Location'] = [d_income(data[0],data[4]), data[4], cur_location[1]]
+  retval['Current Location'] = [d_income(data[0],data[4]), data[4]]
   
   """
   Receives a goal and procedes with teh proper calcs for achieving the gaol
@@ -131,11 +131,12 @@ def savings(savings, salary, goal):
     dif = goal - savings
     return dif / (salary/12)*.2
 
+@reactive.Calc
 def d_income(salary, rent):
     """
     Calculate the disposable income index
     """
-    return (salary/12) - rent 
+    return (salary/12) - rent
 
 
 
