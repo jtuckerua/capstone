@@ -34,5 +34,5 @@ def d_income(salary, rent):
     """
     Calculate the disposable income index
     """
-    return (salary/12) - rent 
+    return (salary/12) - int(rent) 
 
