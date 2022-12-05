@@ -57,8 +57,6 @@ app_ui = ui.page_fluid(
         ui.output_ui("ui_select"),
     ),
     ui.row(
-        ui.input_action_button("predict","Predict", width='20%'),
-        ui.output_text_verbatim("results", placeholder=True),
         ui.p(
         ui.output_text_verbatim("out"),
     ),
@@ -71,16 +69,71 @@ def server(input, output, session):
     wages_df = pd.read_csv('./Data/Clean/cln_wages.csv')
     rent_df = pd.read_csv('./Data/Clean/rent.csv')
 
-    ###### Initialize UI ######
+    ###### Calc Functions ######
+    @reactive.Calc
+    def determine_distance_by_zipcode(zip1, zip2):
+        geolocator = Nominatim(user_agent="my_app")
+        location1 = geolocator.geocode(zip1)
+        location2 = geolocator.geocode(zip2)
+        return geodesic((location1.latitude, location1.longitude), (location2.latitude, location2.longitude)).miles
+
+    @reactive.Calc
+    def filter_rent_df():
+        # if the user selects the nationwide checkbox, then the rent dataframe
+        # will not be filtered by location
+        if input.checkbox_item:
+            return rent_df
+        # if the user does not select the nationwide checkbox, then the rent dataframe
+        # will be filtered by location to only include the zip code that the user inputs
+        # and all the zip codes that are within the distance selected by the user.
+        else:
+            # use nested loops to make a list of all the zip codes that are within the distance
+            # selected by the user from the inputted zip code.
+            zip_list = []
+            for i in range(len(rent_df)):
+                if determine_distance_by_zipcode(input.zip(), rent_df['ZIP Code'][i]) <= input.dis():
+                    zip_list.append(rent_df['ZIP Code'][i])
+            # filter the rent dataframe by the list of zip codes that are within the distance
+            # selected by the user from the inputted zip code.
+            return rent_df[rent_df['ZIP Code'].isin(zip_list)]
+
+    @reactive.Calc
+    def calc_estimated_rent():
+        '''
+        This function will calculate the estimated rent based on the 
+        mean cost for their selected number of bedrooms in the rent_df
+        subset that their input filters for.
+        It will first filter the data to the bedroom size they selected
+        and then get the mean cost for that bedroom size for each zip code
+        in the filtered data. It will then select the lowest cost city and
+        return the estimated rent for that city.
+        '''
+        # get localized rent_df from user input
+        rent_df_local = filter_rent_df()
+        # filter the rent_df_local to the bedroom size the user selected with the input var directly
+        rent_df_local = rent_df_local[input.bedrooms().lower()]
+        # get the mean cost for each zip code in the filtered data
+        rent_df_local = rent_df_local.groupby(rent_df_local.index).mean()
+
+        # if the current tab is 'City A', then return the estimated rent for the lowest cost city
+        if input.tab() == 'City A':
+            return rent_df_local.min()
+        # if the current tab is 'City B', then return the estimated rent for the second lowest cost city
+        elif input.tab() == 'City B':
+            return rent_df_local.nsmallest(2).max()
+        # if the current tab is 'City C', then return the estimated rent for the third lowest cost city
+        elif input.tab() == 'City C':
+            return rent_df_local.nsmallest(3).max()
+
+    ###### Update UI ######
     @reactive.Effect
     @output
-    @render.ui
+    @render.text
     def map(lat=32.2540, lon=-110.9742):
         '''
         Initialize the map with coordinates to Tucson, AZ.
         Will also update the map when the predictions are made
         '''
-       
         print("ZIP:", input.zip())
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(input.zip())
@@ -88,6 +141,8 @@ def server(input, output, session):
             location = geolocator.geocode(85701)
         lat = location.latitude
         lon = location.longitude
+
+        print("updating map...")
 
         map = L.Map(center=(lat, lon), zoom=10, scroll_wheel_zoom=True, dragging=True)
         register_widget("map", map)
@@ -107,6 +162,7 @@ def server(input, output, session):
         # filter wages_df by the industry selected in the dropdown menu
         wages = wages_df[wages_df['OCC_TITLE'] == input.industry()]
         sns.histplot(wages, ax=ax, kde=True, bins=20)
+        print("updating plot...")
         return fig
 
 
@@ -121,14 +177,10 @@ def server(input, output, session):
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(zip)
         city = location
-        print("city:", city)
 
         fig, ax = plt.subplots()
-
-        # use an sns histplot to create a histogram
-        # filter rent_df by the header being equal to the value of the bedroom number
-        rent = rent_df[rent_df['City'] == city]
-        sns.histplot(rent, ax=ax, kde=True, bins=20)
+        sns.histplot(rent_df, ax=ax, kde=True, bins=20)
+        print("updating plot_2...")
         return fig
 
     @reactive.Effect
@@ -145,9 +197,9 @@ def server(input, output, session):
         print("city:", city)
         return  f"Ideal City: {city}\n" + \
                 f"Estimated Salary: {input.sal()}\n" + \
-                f"Estimated Rent: {input.rent()}\n" + \
-                f"Estimated Savings: {input.sav()}\n" + \
-                f"Estimated Disposable Income: {input.sal()}\n"
+                f"Estimated Rent: {calc_estimated_rent()} {input.bedrooms()} \n" + \
+                f"Estimated Annual Savings: {input.sav()} (Assuming 10% of Disposable Income)\n" + \
+                f"Estimated Disposable Income: {input.sal()} Per Month\n"
 
 
 app = App(app_ui, server)
