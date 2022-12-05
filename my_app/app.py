@@ -71,20 +71,24 @@ def server(input, output, session):
     wages_df = pd.read_csv('./Data/Clean/cln_wages.csv')
     rent_df = pd.read_csv('./Data/Clean/rent.csv')
 
-    @reactive.Calc
-    def get_city_coords(self, city, state):
-        '''
-        Get the latitude and longitude of a city.
-        '''
-        geolocator = Nominatim(user_agent="my_app")
-        location = geolocator.geocode(city + ', ' + state)
-        return location.latitude, location.longitude
-
     ###### Initialize UI ######
     @reactive.Effect
     @output
     @render.ui
     def map(lat=32.2540, lon=-110.9742):
+        '''
+        Initialize the map with coordinates to Tucson, AZ.
+        Will also update the map when the predictions are made
+        '''
+       
+        print("ZIP:", input.zip())
+        geolocator = Nominatim(user_agent="my_app")
+        location = geolocator.geocode(input.zip())
+        if location == None:
+            location = geolocator.geocode(85701)
+        lat = location.latitude
+        lon = location.longitude
+
         map = L.Map(center=(lat, lon), zoom=10, scroll_wheel_zoom=True, dragging=True)
         register_widget("map", map)
         return map
@@ -114,7 +118,6 @@ def server(input, output, session):
         This function will create a plot that will show the average rent for the user's specific calculations
         '''
         zip = str(input.zip())
-        print("ZIP:", type(zip), zip)
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(zip)
         city = location
@@ -136,7 +139,6 @@ def server(input, output, session):
         This function will create a text box that will show the user's specific calculations
         '''
         zip = str(input.zip())
-        print("ZIP:", type(zip), zip)
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(zip)
         city = location
