@@ -103,10 +103,8 @@ def server(input, output, session):
         # find the first row where the zip_df['City'].contains city and zip_df['State'] == state
         for ind in df.index:
             if city in df['City'][ind]:
-                print("CITY:", city, "=>", df['City'][ind])
                 city = df['City'][ind]
                 state = df['State'][ind]
-                break
         return city, state
 
     @reactive.Calc
@@ -169,7 +167,10 @@ def server(input, output, session):
         Will also update the map when the predictions are made
         '''
         geolocator = Nominatim(user_agent="my_app")
+        zip = input.zip()
         location = geolocator.geocode(input.zip())
+
+    
         
         lat = location.latitude
         lon = location.longitude
@@ -191,7 +192,7 @@ def server(input, output, session):
         print(input.industry())
 
         zip = input.zip()
-        city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
+        city, state = get_city_state_from_zip()
 
         nat_wages = wages_df[wages_df['OCC_TITLE'] == input.industry()]
         nat_wages = nat_wages['Mean_Annual_wage']
