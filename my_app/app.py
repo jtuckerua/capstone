@@ -454,17 +454,14 @@ def server(input, output, session):
         city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
         state = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['State'].values[0]
 
-        # try:
-        calc_top_three_cities()
-        # except:
-        #    return "Error: Bad Data for This Calculation"
-
         if input.goal() == 'Buy a home':
             goal = calc_buy_a_home()
         elif input.goal() == 'Improve Quality of Life':
             goal = calc_improve_qol()
         elif input.goal() == 'Investment Property':
             goal = calc_investment_property()
+
+        calc_top_three_cities()
 
         out = f"Ideal City: {city}, {state}\n"+ \
                 f"Estimated Salary: ${calc_estimated_salary()}\n" + \
@@ -475,6 +472,5 @@ def server(input, output, session):
                 f"Goal: ${goal}"
 
         return out
-
 
 app = App(app_ui, server)
