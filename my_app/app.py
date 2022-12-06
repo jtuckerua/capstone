@@ -4,7 +4,7 @@ import math
 from tkinter import CENTER
 from turtle import width
 from shiny import App, render, ui, reactive, Outputs
-from shinywidgets import output_widget, register_widget, reactive_read
+from shinywidgets import output_widget, register_widget, reactive_read, render_widget
 import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
@@ -220,26 +220,26 @@ def server(input, output, session):
     ###### Update UI ######
     @reactive.Effect
     @output
-    @render.text
-    def map(lat=32.2540, lon=-110.9742):
+    @render_widget()
+    async def map(lat=32.2540, lon=-110.9742):
         '''
         Initialize the map with coordinates to Tucson, AZ.
         Will also update the map when the predictions are made
         '''
-        geolocator = Nominatim(user_agent="my_app")
-        zip = input.zip()
-        location = geolocator.geocode(input.zip())
+        with ui.Progress(min=1, max=5) as p:
+            p.set(message="Calculation in progress", detail="This may take a while...")
 
-    
-        
-        lat = location.latitude
-        lon = location.longitude
+            for i in range(1, 5):
+                p.set(i, message="Computing")
+                geolocator = Nominatim(user_agent="my_app")
+                zip = input.zip()
+                location = geolocator.geocode(input.zip())
+                lat = location.latitude
+                lon = location.longitude
+                # Normally use time.sleep() instead, but it doesn't yet work in Pyodide.
+                # https://github.com/pyodide/pyodide/issues/2354
+            return L.Map(center=(lat, lon), zoom=10, scroll_wheel_zoom=True, dragging=True)
 
-        print("updating map...")
-
-        map = L.Map(center=(lat, lon), zoom=10, scroll_wheel_zoom=True, dragging=True)
-        register_widget("map", map)
-        return map
 
 
     @reactive.Effect
@@ -250,32 +250,35 @@ def server(input, output, session):
         This function will create a plot that will show the average salary for the user's specific calculations
         '''
         print(input.industry())
+        with ui.Progress(min=1, max=5) as p:
+            p.set(message="Calculation in progress", detail="This may take a while...")
 
-        zip = input.zip()
-        city, state = get_city_state_from_zip()
+            for i in range(1, 5):
+                zip = input.zip()
+                city, state = get_city_state_from_zip()
 
-        nat_wages = wages_df[wages_df['OCC_TITLE'] == input.industry()]
-        nat_wages = nat_wages['Mean_Annual_wage']
+                nat_wages = wages_df[wages_df['OCC_TITLE'] == input.industry()]
+                nat_wages = nat_wages['Mean_Annual_wage']
 
-        # get the mean annual wage for the selected industry
-        wages = wages_df[wages_df['OCC_TITLE'] == input.industry()]
-        wages = wages_df[wages_df['City'] == city]
-        wages = wages['Mean_Annual_wage']
+                # get the mean annual wage for the selected industry
+                wages = wages_df[wages_df['OCC_TITLE'] == input.industry()]
+                wages = wages_df[wages_df['City'] == city]
+                wages = wages['Mean_Annual_wage']
 
-        if len(wages) >= len(nat_wages):
-            wages.loc[:len(nat_wages)]
-        else:
-            nat_wages.loc[:len(wages)]
+                if len(wages) >= len(nat_wages):
+                    wages.loc[:len(nat_wages)]
+                else:
+                    nat_wages.loc[:len(wages)]
 
-        # create the plot
-        fig, ax = plt.subplots()
-        ax.hist(wages, bins=10, alpha=0.5, label=city)
-        ax.hist(nat_wages, bins=10, alpha=0.5, label='Nationwide')
-        ax.set_xlabel('City')
-        ax.set_ylabel('$ by 10k')
-        ax.set_title('Average Salary for ' + input.industry())
-        ax.legend(loc='upper right')
-        return fig
+                # create the plot
+                fig, ax = plt.subplots()
+                ax.hist(wages, bins=10, alpha=0.5, label=city)
+                ax.hist(nat_wages, bins=10, alpha=0.5, label='Nationwide')
+                ax.set_xlabel('City')
+                ax.set_ylabel('$ by 10k')
+                ax.set_title('Average Salary for ' + input.industry())
+                ax.legend(loc='upper right')
+            return fig
 
     @reactive.Effect
     @output
@@ -284,25 +287,30 @@ def server(input, output, session):
         '''
         This function will create a plot that will show the average rent for the user's specific calculations
         '''
-        rent = rent_df
-        zip = str(input.zip())
-        
-        # get the 'City' value for the input zip code
-        city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
+        with ui.Progress(min=1, max=5) as p:
+            p.set(message="Calculation in progress", detail="This may take a while...")
 
-        bedrooms = input.bedrooms()
-        if bedrooms == 'Studio':
-            bedrooms = 'studio'
+            for i in range(1, 5):
+                rent = rent_df
+                zip = str(input.zip())
+                
+                # get the 'City' value for the input zip code
+                city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
 
-        # filter the rent data to only be the [bedroom] column where the 'City' == city
-        rent = rent_df.loc[rent_df['City'] == city]
-        rent = rent[bedrooms]
+                bedrooms = input.bedrooms()
+                if bedrooms == 'Studio':
+                    bedrooms = 'studio'
 
-        fig, ax = plt.subplots()
-        ax.hist(rent, bins=10)
-        ax.set_xlabel('City')
-        ax.set_ylabel('Rent')
-        ax.set_title('Rent for ' + bedrooms + ' in ' + city)
+                # filter the rent data to only be the [bedroom] column where the 'City' == city
+                rent = rent_df.loc[rent_df['City'] == city]
+                rent = rent[bedrooms]
+
+                fig, ax = plt.subplots()
+                ax.hist(rent, bins=10)
+                ax.set_xlabel('City')
+                ax.set_ylabel('Rent')
+                ax.set_title('Rent for ' + bedrooms + ' in ' + city)
+            return fig
         
     @reactive.Effect
     @output

@@ -84,14 +84,14 @@ def get_industry_df(industry):
   collect the top three rows for employee level by industry.
   return the fips and their average annual pay
   """
-  df = pd.read_csv('./Clean/location_industry.csv')
+  df = pd.read_csv('./Data/Clean/location_industry.csv')
   return df[df['industry_code'] == industry].sort_values('annual_avg_emplvl', axis=0, ascending=False)[:3].loc[:,['area_fips','avg_annual_pay']]
 
 def get_industry_loc(df):
   """
   returns the top cities for the industry 
   """
-  lf = pd.read_csv('./Clean/location_codes.csv')
+  lf = pd.read_csv('./Data/Clean/location_codes.csv')
   tmp = lf[lf['area_fips'].isin(df['area_fips'].values)].loc[:,['City','State']]
   return (get_info(",".join(tmp.values[0])),get_info(",".join(tmp.values[1])),get_info(",".join(tmp.values[2])))
 
@@ -159,7 +159,7 @@ def distance_calc(location1, location2):
     return geodesic(location1[1], location2[1]).miles
     
 def get_rent(locs, rooms):
-    rent = pd.read_csv('./Clean/rent.csv')
+    rent = pd.read_csv('./Data/Clean/rent.csv')
 
 
 
