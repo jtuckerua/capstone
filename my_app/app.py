@@ -27,6 +27,7 @@ def nav_controls(prefix):
 ###### Load data ######
 wages_df = pd.read_csv('./Data/Clean/cln_wages.csv')
 rent_df = pd.read_csv('./Data/Clean/rent.csv')
+housing_df = pd.read_csv('./Data/housing.csv')
 ind_series = wages_df['OCC_TITLE'].values.tolist()
 
 ###### Create App ######
@@ -70,9 +71,8 @@ app_ui = ui.page_fluid(
         
 
 def server(input, output, session):
-    
-    # extract 'ZIP Code', 'City', 'State' from wages_df
     zip_df = rent_df[['ZIP Code', 'City', 'State']]
+    housing_costs = housing_df[['Metro', '2020-09-30']]
 
     ###### Calc Functions ########
     @reactive.Calc
@@ -179,11 +179,56 @@ def server(input, output, session):
 
     @reactive.Calc
     def calc_buy_a_home():
-        pass
+        '''
+        This function will calculate the estimated amount of time it will take
+        for their current savings to arrive at a point to put a 10% down
+        payment on the mean housing price of the current tab city
+        '''
+        savings = input.savings()
+        city, _ = get_city_state_from_zip()
+
+        # filter data
+        housing_costs_df = housing_costs[housing_costs['City'] == city]
+        mean_housing_price = housing_costs_df['2020-09-30'].mean()
+
+        # calculate the amount of money needed for a 10% down payment
+        down_payment = mean_housing_price * .1
+        money_needed = down_payment - savings
+
+        # calculate the estimated amount of time it will take
+        # for their current savings to arrive at a point to put a 10% down
+        # payment on the mean housing price of the current tab city
+        time = money_needed / (calc_disposable_income() * .1)
+        time = round(time, 2)
+
+        return f"Your current savings will take {time} months to arrive at a 10% down payment on the mean housing price of {city}."
+
 
     @reactive.Calc
     def calc_investment_property():
-        pass
+        '''
+        This function will calculate the estimated amount of time it will take
+        for their current savings to arrive at a point to put a 10% down
+        payment on the mean housing price of the current tab city
+        '''
+        savings = input.savings()
+        city, _ = get_city_state_from_zip()
+
+        # filter data
+        housing_costs_df = housing_costs[housing_costs['City'] == city]
+        mean_housing_price = housing_costs_df['2020-09-30'].mean()
+
+        # calculate the amount of money needed for a 15% down payment
+        down_payment = mean_housing_price * .15
+        money_needed = down_payment - savings
+
+        # calculate the estimated amount of time it will take
+        # for their current savings to arrive at a point to put a 10% down
+        # payment on the mean housing price of the current tab city
+        time = money_needed / (calc_disposable_income() * .10)
+        time = round(time, 2)
+
+        return f"Your current savings will take {time} months to arrive at a 15% down payment on the mean housing price of {city}."
 
     @reactive.Calc
     def calc_improve_qol():
@@ -205,7 +250,7 @@ def server(input, output, session):
         for i in range(months):
             total_interest += debt * (interest *.01)
 
-
+        return f"By spending 10% of your disposable income on debt, you will pay off your debt in {months} months and spend {total_interest} on interest."
 
     @reactive.Calc
     def calc_estimated_rent():
