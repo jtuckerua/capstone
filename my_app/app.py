@@ -145,6 +145,18 @@ def server(input, output, session):
         return
 
     @reactive.Calc
+    def calc_rent_diff():
+        cur_rent = input.rent()
+        mean_rent = calc_estimated_rent()
+
+        if cur_rent < mean_rent:
+            return f"Your rent is {mean_rent - cur_rent} below the average rent in {input.city()}, {input.state()}."
+        elif cur_rent > mean_rent:
+            return f"Your rent is {cur_rent - mean_rent} above the average rent in {input.city()}, {input.state()}."
+        else:
+            return f"Your rent is the same as the average rent in {input.city()}, {input.state()}."
+
+    @reactive.Calc
     def get_city_state_from_zip():
         zip = input.zip()
         geolocator = Nominatim(user_agent="my_app")
@@ -397,10 +409,10 @@ def server(input, output, session):
         city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
         state = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['State'].values[0]
 
-        try:
-            calc_top_three_cities()
-        except:
-            return "Error: Bad Data for This Calculation"
+        # try:
+        calc_top_three_cities()
+        # except:
+        #    return "Error: Bad Data for This Calculation"
 
         if input.goal() == 'Buy a home':
             goal = calc_buy_a_home()
@@ -412,6 +424,7 @@ def server(input, output, session):
         out = f"Ideal City: {city}, {state}\n"+ \
                 f"Estimated Salary: ${calc_estimated_salary()}\n" + \
                 f"Estimated Rent: ${calc_estimated_rent()} {input.bedrooms()} \n" + \
+                f"Rent Difference: ${calc_rent_diff()}\n" + \
                 f"Savings (Age: {input.age() + 5}): ${calc_estimated_savings()} (Assuming 10% of Disposable Income)\n" + \
                 f"Estimated Disposable Income: ${input.sal()} Per Month\n" + \
                 f"Goal: ${goal}"
