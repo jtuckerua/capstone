@@ -54,7 +54,7 @@ app_ui = ui.page_fluid(
         ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
     ),
     ui.row(
-        ui.input_numeric("zip", "Current Zip Code", 10001, min=10000, max=99999, width='20%'),
+        ui.input_numeric("zip", "Current Zip Code", 85701, min=10000, max=99999, width='20%'),
         ui.input_numeric("rent", "Rent", 945, min=0, max=10000, width='20%'),
         ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "1BR", "2BR", "3BR", "4BR"], width='20%'),
         ui.input_slider("dis", "Distance", value=1, min=1, max=500, step=50, post="mi", width='20%'),
@@ -283,19 +283,19 @@ def server(input, output, session):
         wages = wages_df[wages_df['City'] == city]
         wages = wages['Mean_Annual_wage']
 
-        if len(wages) >= len(nat_wages):
-            wages.loc[:len(nat_wages)]
+        # make the larger series only as big as the smaller one
+        if len(nat_wages) > len(wages):
+            nat_wages = nat_wages[:len(wages)]
         else:
-            nat_wages.loc[:len(wages)]
+            wages = wages[:len(nat_wages)]
 
         # create the plot
         fig, ax = plt.subplots()
-        ax.hist(wages, bins=10, alpha=0.5, label=city)
-        ax.hist(nat_wages, bins=10, alpha=0.5, label='Nationwide')
-        ax.set_xlabel('City')
+        ax.hist(wages, bins=10, label=city)
+        ax.hist(nat_wages, bins=10, label='Nationwide')
         ax.set_ylabel('$ by 10k')
         ax.set_title('Average Salary for ' + input.industry())
-        ax.legend(loc='upper right')
+        ax.legend(loc='upper left')
         return fig
 
     @reactive.Effect
@@ -321,8 +321,7 @@ def server(input, output, session):
 
         fig, ax = plt.subplots()
         ax.hist(rent, bins=10)
-        ax.set_xlabel('City')
-        ax.set_ylabel('Rent')
+        ax.set_xlabel('Cost')
         ax.set_title('Rent for ' + bedrooms + ' in ' + city)
         
     @reactive.Effect
