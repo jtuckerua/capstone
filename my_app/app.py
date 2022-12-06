@@ -133,6 +133,37 @@ def server(input, output, session):
         return mean
 
     @reactive.Calc
+    def calc_estimated_savings():
+        '''
+        This function will calculate the estimated savings based on the 
+        mean cost for their selected number of bedrooms in the rent_df
+        subset that their input filters for.
+        It will first filter the data to the bedroom size they selected
+        and then get the mean cost for that bedroom size for each zip code
+        in the filtered data. It will then select the lowest cost city and
+        return the estimated rent for that city.
+        '''
+        savings = input.sav()
+        disposable_income = calc_disposable_income()
+        monthly_savings = disposable_income / 10
+        five_years_savings = monthly_savings * 12 * 5
+        est_savings = savings + five_years_savings
+        return round(est_savings, 2)
+
+    @reactive.Calc
+    def calc_disposable_income():
+        '''
+        This function will very simply calculate the disposable income
+        as monthly income minus monthly rent.
+        '''
+        annual_income = calc_estimated_salary().replace(',', '')
+        annual_income = int(annual_income)
+        monthly_income = annual_income / 12
+        rent = calc_estimated_rent()
+        disposable_income = monthly_income - rent
+        return disposable_income
+
+    @reactive.Calc
     def calc_estimated_salary():
         '''
         This function will calculate the estimated rent based on the 
@@ -258,7 +289,7 @@ def server(input, output, session):
         return  f"Ideal City: {city}, {state}\n"+ \
                 f"Estimated Salary: ${calc_estimated_salary()}\n" + \
                 f"Estimated Rent: ${calc_estimated_rent()} {input.bedrooms()} \n" + \
-                f"Estimated Annual Savings: ${input.sav()} (Assuming 10% of Disposable Income)\n" + \
+                f"Savings (Age: {input.age() + 5}): ${calc_estimated_savings()} (Assuming 10% of Disposable Income)\n" + \
                 f"Estimated Disposable Income: ${input.sal()} Per Month\n"
 
 
