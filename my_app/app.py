@@ -74,7 +74,7 @@ def server(input, output, session):
     # extract 'ZIP Code', 'City', 'State' from wages_df
     zip_df = rent_df[['ZIP Code', 'City', 'State']]
 
-    ###### Calc Functions ######
+    ###### Calc Functions ########
     @reactive.Calc
     def determine_distance_by_zipcode(zip1, zip2):
         geolocator = Nominatim(user_agent="my_app")
@@ -111,6 +111,7 @@ def server(input, output, session):
 
         # filter the rent_df to only include cities within the distance specified by the user
         df = rent_df[rent_df['ZIP Code'].isin(valid_zipcodes)]
+        print("DATAFRAME:", df)
         return df
 
     @reactive.Calc
@@ -134,7 +135,14 @@ def server(input, output, session):
         # get the top three cities by 'Mean_Annual_wage'
         top_three_cities = wages_df.sort_values(by='Mean_Annual_wage', ascending=False).head(3)
         top_three_cities = top_three_cities[['City', 'State', 'Mean_Annual_wage']]
-        return top_three_cities
+        
+        if input.tab() == 'City A':
+            return top_three_cities.iloc[0]
+        elif input.tab() == 'City B':
+            return top_three_cities.iloc[1]
+        elif input.tab() == 'City C':
+            return top_three_cities.iloc[2]
+        return
 
     @reactive.Calc
     def get_city_state_from_zip():
@@ -156,6 +164,36 @@ def server(input, output, session):
                 city = df['City'][ind]
                 state = df['State'][ind]
         return city, state
+
+    @reactive.Calc
+    def calc_buy_a_home():
+        pass
+
+    @reactive.Calc
+    def calc_investment_property():
+        pass
+
+    @reactive.Calc
+    def calc_improve_qol():
+        debt = input.pay()
+        interest = input.int()
+        disp_income = calc_disposable_income()
+        
+        # calculate the how many months it will take to pay off
+        # all debt if each month, ten percent of disposable income is spent
+        # paying off debt
+        months = 0
+        while debt > 0:
+            debt -= disp_income * .1
+            months += 1
+
+        # calculate the total amount of interest paid over the course of
+        # paying off the debt
+        total_interest = 0
+        for i in range(months):
+            total_interest += debt * (interest *.01)
+
+
 
     @reactive.Calc
     def calc_estimated_rent():
@@ -330,6 +368,22 @@ def server(input, output, session):
         ax.hist(rent, bins=10)
         ax.set_xlabel('Cost')
         ax.set_title('Rent for ' + bedrooms + ' in ' + city)
+
+    @reactive.Effect
+    def _():
+        #dynamically inserts UI elements based on the selected financial goal. When pay off debt is selected it will add UI elements
+        #asking what the outstanding debt amount is and what the interest rate is. If anything besides pay off deb is selected this 
+        #function will remove the input UI elements for outstanding debt amount and interest rate. To position insert_ui correctly you
+        #must specify a selector and tell it where to place the new ui element relative to the selector. where can = beforeBegin, afterBegin,
+        #beforeEnd, or afterEnd. Selector is based on the id of each UI element and must be formatted how it is in this function. 
+        goal = input.goal()
+        if goal == "Improve Quality of Life":
+            ui.insert_ui(ui.input_numeric("pay", "Outstanding Debt Amount ($)", 10000, min=10000, max=1000000, width='10%'), selector="div:has(> #checkbox_item)", where="beforeEnd")
+            ui.insert_ui(ui.input_numeric("int", "Interest Rate (%)", 1, min=0, max=20, width='10%'), selector="div:has(> #checkbox_item)", where="beforeEnd")
+        elif goal != "Improve Quality of Life":
+            ui.remove_ui(selector="div:has(> #pay)")
+            ui.remove_ui(selector="div:has(> #int)")
+            return
         
     @reactive.Effect
     @output
@@ -339,28 +393,28 @@ def server(input, output, session):
         This function will create a text box that will show the user's specific calculations
         '''
         zip = str(input.zip())
-        # the return value is a dataframe with the top cities each as one row
-        top_cities = calc_top_three_cities()
         # get the 'City' value for the input zip code
         city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
         state = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['State'].values[0]
 
-        if input.tab() == 'City A':
-            # extract the city and state from the top_cities dataframe row 0
-            city = top_cities[0]['City']
-            state = top_cities[0]['State']
-        elif input.tab() == 'City B':
-            city = top_cities[1]['City']
-            state = top_cities[1]['State']
-        elif input.tab() == 'City C':
-            city = top_cities[2]['City']
-            state = top_cities[2]['State']
+        try:
+            calc_top_three_cities()
+        except:
+            return "Error: Bad Data for This Calculation"
+
+        if input.goal() == 'Buy a home':
+            goal = calc_buy_a_home()
+        elif input.goal() == 'Improve Quality of Life':
+            goal = calc_improve_qol()
+        elif input.goal() == 'Investment Property':
+            goal = calc_investment_property()
 
         out = f"Ideal City: {city}, {state}\n"+ \
                 f"Estimated Salary: ${calc_estimated_salary()}\n" + \
                 f"Estimated Rent: ${calc_estimated_rent()} {input.bedrooms()} \n" + \
                 f"Savings (Age: {input.age() + 5}): ${calc_estimated_savings()} (Assuming 10% of Disposable Income)\n" + \
-                f"Estimated Disposable Income: ${input.sal()} Per Month\n"
+                f"Estimated Disposable Income: ${input.sal()} Per Month\n" + \
+                f"Goal: ${goal}"
 
         return out
 
