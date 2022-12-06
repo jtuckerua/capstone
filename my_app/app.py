@@ -87,6 +87,35 @@ def server(input, output, session):
             return []
 
     @reactive.Calc
+    def filter_cities_within_dis():
+        ''' 
+        filter the rent_df to only include cities within the distance
+        specified by the user. cities are determined by zipcode.
+        '''
+        zip = input.zip()
+        geolocator = Nominatim(user_agent="my_app")
+        location = geolocator.geocode(zip, addressdetails=True)
+        location = location.raw
+        city = location['address']['city']
+        state = location['address']['state']
+
+        df = rent_df[['ZIP Code', 'City', 'State']]
+        if city.startswith('City of '):
+            city = city.replace('City of ', '')
+
+        # find the first row where the zip_df['City'].contains city and zip_df['State'] == state
+        valid_zipcodes = []
+        for ind in df.index:
+            # get the distance between the user's zipcode and the zipcode in the dataframe
+            valid_zipcodes += determine_distance_by_zipcode(zip, df['ZIP Code'][ind])
+
+        # filter the rent_df to only include cities within the distance specified by the user
+        df = rent_df[rent_df['ZIP Code'].isin(valid_zipcodes)]
+        return df
+            
+
+
+    @reactive.Calc
     def get_city_state_from_zip():
         zip = input.zip()
         geolocator = Nominatim(user_agent="my_app")
@@ -234,16 +263,16 @@ def server(input, output, session):
         wages = wages['Mean_Annual_wage']
 
         if len(wages) >= len(nat_wages):
-            wages = wages[:len(nat_wages)]
+            wages.loc[:len(nat_wages)]
         else:
-            nat_wages = nat_wages[:len(wages)]
+            nat_wages.loc[:len(wages)]
 
         # create the plot
         fig, ax = plt.subplots()
         ax.hist(wages, bins=10, alpha=0.5, label=city)
         ax.hist(nat_wages, bins=10, alpha=0.5, label='Nationwide')
         ax.set_xlabel('City')
-        ax.set_ylabel('Frequency')
+        ax.set_ylabel('$ by 10k')
         ax.set_title('Average Salary for ' + input.industry())
         ax.legend(loc='upper right')
         return fig
