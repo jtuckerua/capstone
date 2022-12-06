@@ -112,8 +112,29 @@ def server(input, output, session):
         # filter the rent_df to only include cities within the distance specified by the user
         df = rent_df[rent_df['ZIP Code'].isin(valid_zipcodes)]
         return df
-            
 
+    @reactive.Calc
+    def filter_wages_by_industry():
+        ''' 
+        filter the wages_df to only include the industry specified by the user
+        '''
+        ind = input.industry()
+        df = wages_df[wages_df['OCC_TITLE'] == ind]
+        return df
+            
+    @reactive.Calc
+    def calc_top_three_cities():
+        # get the filtered rent and wage dataframes
+        rent_df = filter_cities_within_dis()
+        wages_df = filter_wages_by_industry()
+
+        # filter the wages_df to only include the cities in the rent_df
+        wages_df = wages_df[wages_df['City'].isin(rent_df['City'])]
+
+        # get the top three cities by 'Mean_Annual_wage'
+        top_three_cities = wages_df.sort_values(by='Mean_Annual_wage', ascending=False).head(3)
+        top_three_cities = top_three_cities[['City', 'State', 'Mean_Annual_wage']]
+        return top_three_cities
 
     @reactive.Calc
     def get_city_state_from_zip():
@@ -312,14 +333,30 @@ def server(input, output, session):
         This function will create a text box that will show the user's specific calculations
         '''
         zip = str(input.zip())
+        # the return value is a dataframe with the top cities each as one row
+        top_cities = calc_top_three_cities()
         # get the 'City' value for the input zip code
         city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
         state = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['State'].values[0]
-        return  f"Ideal City: {city}, {state}\n"+ \
+
+        if input.tab() == 'City A':
+            # extract the city and state from the top_cities dataframe row 0
+            city = top_cities[0]['City']
+            state = top_cities[0]['State']
+        elif input.tab() == 'City B':
+            city = top_cities[1]['City']
+            state = top_cities[1]['State']
+        elif input.tab() == 'City C':
+            city = top_cities[2]['City']
+            state = top_cities[2]['State']
+
+        out = f"Ideal City: {city}, {state}\n"+ \
                 f"Estimated Salary: ${calc_estimated_salary()}\n" + \
                 f"Estimated Rent: ${calc_estimated_rent()} {input.bedrooms()} \n" + \
                 f"Savings (Age: {input.age() + 5}): ${calc_estimated_savings()} (Assuming 10% of Disposable Income)\n" + \
                 f"Estimated Disposable Income: ${input.sal()} Per Month\n"
+
+        return out
 
 
 app = App(app_ui, server)
