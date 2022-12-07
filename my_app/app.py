@@ -18,11 +18,7 @@ import seaborn as sb
 pd.set_option('display.max_columns', None)
 
 def nav_controls(prefix):
-    return [
-        ui.nav("City A"),
-        ui.nav("City B"),
-        ui.nav("City C"),
-    ]
+    return []
 
 ###### Load data ######
 wages_df = pd.read_csv('./Data/Clean/cln_wages.csv')
@@ -60,7 +56,7 @@ app_ui = ui.page_fluid(
         ui.input_numeric("zip", "Current Zip Code", 85701, min=10000, max=99999, width='20%'),
         ui.input_numeric("rent", "Rent", 945, min=0, max=10000, width='20%'),
         ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "1BR", "2BR", "3BR", "4BR"], width='20%'),
-        ui.input_slider("dis", "Distance", value=200, min=1, max=2900, step=50, post="mi", width='20%'),
+        ui.input_slider("dis", "Distance", value=300, min=1, max=2900, step=50, post="mi", width='20%'),
         ui.input_checkbox_group("checkbox_item", "Nationwide?", choices=["Yes"], width='10%'),
         ui.output_ui("ui_select"),
     ),
@@ -154,13 +150,7 @@ def server(input, output, session):
         zip_b = int(zip_b)
         zip_c = int(zip_c)
         
-        if input.navbar_id() == 'City A':
-            return ui.update_numeric("zip", value=zip_a)
-        elif input.navbar_id() == 'City B':
-            return ui.update_numeric("zip", value=zip_b)
-        elif input.navbar_id() == 'City C':
-            return ui.update_numeric("zip", value=zip_c)
-        return
+        return ui.update_numeric("zip", value=zip_a)
 
     @reactive.Calc
     def calc_rent_diff():
@@ -177,6 +167,9 @@ def server(input, output, session):
     @reactive.Calc
     def get_city_state_from_zip():
         zip = input.zip()
+
+        print(zip)
+
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(zip, addressdetails=True)
         location = location.raw
@@ -189,6 +182,8 @@ def server(input, output, session):
             city = city.replace('City of ', '')
 
         # find the first row where the zip_df['City'].contains city and zip_df['State'] == state
+        print("CITY:", city)
+        print("DF:", df)
         for ind in df.index:
             if city in df['City'][ind]:
                 city = df['City'][ind]
@@ -383,7 +378,6 @@ def server(input, output, session):
         '''
         This function will create a plot that will show the average salary for the user's specific calculations
         '''
-        print(input.industry())
         with ui.Progress(min=1, max=5) as p:
             p.set(message="Calculation in progress", detail="This may take a while...")
 
@@ -443,6 +437,7 @@ def server(input, output, session):
         ax.hist(rent, bins=10)
         ax.set_xlabel('Cost')
         ax.set_title('Rent for ' + bedrooms + ' in ' + city)
+        return fig
 
     @reactive.Effect
     def _():
