@@ -60,9 +60,9 @@ app_ui = ui.page_fluid(
         ui.input_slider("dis", "Distance", value=300, min=1, max=2900, step=50, post="mi", width='20%'),
         ui.input_checkbox_group("checkbox_item", "Nationwide?", choices=["Yes"], width='10%'),
         ui.output_ui("ui_select"),
+        ui.input_action_button("predict","Predict"),
     ),
     ui.row(
-        ui.input_action_button("predict","Predict"),
         ui.p(
         ui.output_text_verbatim("out"),
     ),
@@ -89,6 +89,7 @@ def server(input, output, session):
         Determine the top 3 cities to move to based on the user's salary and the industry they work in
         '''
         # get the filtered wage dataframe
+        
         wages_df = filter_wages_by_industry()
         
         # order cities by 'Mean_Annual_wage' from highest to lowest
@@ -104,31 +105,33 @@ def server(input, output, session):
         loc1 = geolocator.geocode(zip, addressdetails=True)
         loc1_lat, loc1_lon = loc1.latitude, loc1.longitude
 
-        print("ranking cities...")
+        if input.checkbox_item() != "Yes":
 
-        # get the top 3 cities
-        eligible_cities = []
-        # backup list of lowest three distance cities in-case distance given is too small
-        lowest_three = []
-        # check every row of cities
-        for _, row in cities.iterrows():
-            # get the city value of this row
-            city = row['City']
-            try:
-                zip2 = zip_df[zip_df['City'] == city]['ZIP Code'].values[0]
-            except:
-                continue
-            loc2 = geolocator.geocode(zip2, addressdetails=True)
-            loc2_lat, loc2_lon = loc2.latitude, loc2.longitude
-            miles = geodesic((loc1_lat, loc1_lon), (loc2_lat, loc2_lon)).miles
-            if len(lowest_three) < 3:
-                lowest_three.append((city, miles))
-            elif miles < lowest_three[2][1]:
-                lowest_three[2] = (city, miles)
-                lowest_three = sorted(lowest_three, key=lambda x: x[1])
-            if miles <= input.dis():
-                print(city, ":", miles)
-                eligible_cities.append(city)
+            print("ranking cities...")
+
+            # get the top 3 cities
+            eligible_cities = []
+            # backup list of lowest three distance cities in-case distance given is too small
+            lowest_three = []
+            # check every row of cities
+            for _, row in cities.iterrows():
+                # get the city value of this row
+                city = row['City']
+                try:
+                    zip2 = zip_df[zip_df['City'] == city]['ZIP Code'].values[0]
+                except:
+                    continue
+                loc2 = geolocator.geocode(zip2, addressdetails=True)
+                loc2_lat, loc2_lon = loc2.latitude, loc2.longitude
+                miles = geodesic((loc1_lat, loc1_lon), (loc2_lat, loc2_lon)).miles
+                if len(lowest_three) < 3:
+                    lowest_three.append((city, miles))
+                elif miles < lowest_three[2][1]:
+                    lowest_three[2] = (city, miles)
+                    lowest_three = sorted(lowest_three, key=lambda x: x[1])
+                if miles <= input.dis():
+                    print(city, ":", miles)
+                    eligible_cities.append(city)
             
         if len(eligible_cities) < 3:
             eligible_cities = [city for city, miles in lowest_three]
@@ -138,7 +141,7 @@ def server(input, output, session):
 
         for index, row in eligible_cities_df.iterrows():
             annual_income = row['Mean_Annual_wage']
-            print('annual',annual_income)
+            #print('annual',annual_income)
             annual_income = annual_income.replace(',', '')
             annual_income = int(annual_income)
             monthly_income = annual_income / 12
@@ -179,13 +182,13 @@ def server(input, output, session):
     def calc_rent_diff():
         cur_rent = input.rent()
         mean_rent = calc_estimated_rent()
-
+        city, state = get_city_state_from_zip()
         if cur_rent < mean_rent:
-            return f"Your rent is {mean_rent - cur_rent} below the average rent in {input.city()}, {input.state()}."
+            return f"Your rent is {mean_rent - cur_rent} below the average rent in {city}, {state}."
         elif cur_rent > mean_rent:
-            return f"Your rent is {cur_rent - mean_rent} above the average rent in {input.city()}, {input.state()}."
+            return f"Your rent is {cur_rent - mean_rent} above the average rent in {city}, {state}."
         else:
-            return f"Your rent is the same as the average rent in {input.city()}, {input.state()}."
+            return f"Your rent is the same as the average rent in {city}, {state}."
 
     @reactive.Calc
     def get_city_state_from_zip():
@@ -227,11 +230,18 @@ def server(input, output, session):
         for their current savings to arrive at a point to put a 10% down
         payment on the mean housing price of the current tab city
         '''
-        savings = input.savings()
+        print('enter buy a home function')
+        savings = input.sav()
         city, _ = get_city_state_from_zip()
-
+        print('BUY HOME CITY',city)
         # filter data
-        housing_costs_df = housing_costs[housing_costs['City'] == city]
+        for _, value in housing_costs['Metro'].items():
+            # get the city value of this row
+            met = value
+            if met.startswith(city):
+                break
+        print('MET', met)
+        housing_costs_df = housing_costs[housing_costs['Metro'] == met]
         mean_housing_price = housing_costs_df['2020-09-30'].mean()
 
         # calculate the amount of money needed for a 10% down payment
@@ -254,11 +264,18 @@ def server(input, output, session):
         for their current savings to arrive at a point to put a 10% down
         payment on the mean housing price of the current tab city
         '''
-        savings = input.savings()
+        print('enter calc investment function')
+        savings = input.sav()
         city, _ = get_city_state_from_zip()
 
+        for _, value in housing_costs['Metro'].items():
+            # get the city value of this row
+            met = value
+            if met.contains(city):
+                break
+        
         # filter data
-        housing_costs_df = housing_costs[housing_costs['City'] == city]
+        housing_costs_df = housing_costs[housing_costs['Metro'] == met]
         mean_housing_price = housing_costs_df['2020-09-30'].mean()
 
         # calculate the amount of money needed for a 15% down payment
@@ -275,6 +292,7 @@ def server(input, output, session):
 
     @reactive.Calc
     def calc_improve_qol():
+        print('enter calc improve')
         debt = input.pay()
         interest = input.int()
         disp_income = calc_disposable_income()
@@ -284,7 +302,8 @@ def server(input, output, session):
         # paying off debt
         months = 0
         while debt > 0:
-            debt -= disp_income * .1
+            debt_payment = disp_income * .1
+            debt -= debt_payment
             months += 1
 
         # calculate the total amount of interest paid over the course of
@@ -414,8 +433,7 @@ def server(input, output, session):
             p.set(message="Calculation in progress", detail="This may take a while...")
 
             for i in range(1, 5):
-                zip = input.zip()
-                city, state = get_city_state_from_zip()
+                city, _ = get_city_state_from_zip()
 
                 nat_wages = wages_df[wages_df['OCC_TITLE'] == input.industry()]
                 nat_wages = nat_wages['Mean_Annual_wage']
@@ -436,7 +454,9 @@ def server(input, output, session):
         ax.hist(wages, bins=10, label=city)
         ax.hist(nat_wages, bins=10, label='Nationwide')
         ax.set_ylabel('$ by 10k')
+        ax.set_xlabel('Distribution')
         ax.set_title('Average Salary for ' + input.industry())
+        plt.xticks([])
         ax.legend(loc='upper left')
         return fig
 
@@ -470,6 +490,7 @@ def server(input, output, session):
         fig, ax = plt.subplots()
         ax.hist(rent, bins=10)
         ax.set_xlabel('Cost')
+        ax.set_ylabel('Inventory')
         ax.set_title('Rent for ' + bedrooms + ' in ' + city)
         return fig
 
@@ -515,10 +536,11 @@ def server(input, output, session):
         out = f"Ideal City: {city}, {state}\n"+ \
                 f"Estimated Salary: ${calc_estimated_salary()}\n" + \
                 f"Estimated Rent: ${calc_estimated_rent()} {input.bedrooms()} \n" + \
-                f"Rent Difference: ${calc_rent_diff()}\n" + \
                 f"Savings (Age: {input.age() + 5}): ${calc_estimated_savings()} (Assuming 10% of Disposable Income)\n" + \
                 f"Estimated Disposable Income: ${input.sal()} Per Month\n" + \
-                f"Goal: ${goal}"
+                f"Rent Difference: {calc_rent_diff()}\n" + \
+                f"Goal: {goal}"
+        print(out)
 
         return out
 
