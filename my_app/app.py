@@ -173,8 +173,15 @@ def server(input, output, session):
         geolocator = Nominatim(user_agent="my_app")
         location = geolocator.geocode(zip, addressdetails=True)
         location = location.raw
-        city = location['address']['city']
-        state = location['address']['state']
+        print(location)
+        try:
+            city = location['address']['city']
+            state = location['address']['state']
+        except:
+            # use the zip code to get the city and state from the zip_df
+            df = zip_df[zip_df['ZIP Code'] == zip]
+            city = df['City'].values[0]
+            state = df['State'].values[0]
 
         df = wages_df[['City', 'State']]
 
