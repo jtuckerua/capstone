@@ -58,7 +58,7 @@ app_ui = ui.page_fluid(
         ui.input_numeric("zip", "Current Zip Code", 85701, min=10000, max=99999, width='20%'),
         ui.input_numeric("rent", "Rent", 945, min=0, max=10000, width='20%'),
         ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "1BR", "2BR", "3BR", "4BR"], width='20%'),
-        ui.input_slider("dis", "Distance", value=300, min=1, max=2900, step=50, post="mi", width='20%'),
+        ui.input_slider("dis", "Distance", value=500, min=1, max=2900, step=50, post="mi", width='20%'),
         ui.output_ui("ui_select"),
         ui.input_action_button("predict","Predict"),
     ),
@@ -128,7 +128,7 @@ def server(input, output, session):
                 lowest_three[2] = (city, miles)
                 lowest_three = sorted(lowest_three, key=lambda x: x[1])
             if miles <= input.dis():
-                print(city, ":", miles)
+                print(city, ":", round(miles, 2))
                 eligible_cities.append(city)
             
         if len(eligible_cities) < 3:
@@ -182,9 +182,9 @@ def server(input, output, session):
         mean_rent = calc_estimated_rent()
         city, state = get_city_state_from_zip()
         if cur_rent < mean_rent:
-            return f"Your rent is {mean_rent - cur_rent} below the average rent in {city}, {state}."
+            return f"Your rent is {round(mean_rent - cur_rent, 2)} below the average rent in {city}, {state}."
         elif cur_rent > mean_rent:
-            return f"Your rent is {cur_rent - mean_rent} above the average rent in {city}, {state}."
+            return f"Your rent is {round(cur_rent - mean_rent, 2)} above the average rent in {city}, {state}."
         else:
             return f"Your rent is the same as the average rent in {city}, {state}."
 
@@ -264,12 +264,17 @@ def server(input, output, session):
         '''
         print('enter calc investment function')
         savings = input.sav()
-        city, _ = get_city_state_from_zip()
+        city, state = get_city_state_from_zip()
 
-        for _, value in housing_costs['Metro'].items():
+        print(city, state)
+
+        for _, value in housing_costs.iterrows():
             # get the city value of this row
-            met = value
-            if met.contains(city):
+            met = value['Metro']
+            try:
+                if met.startswith(city) and value['State'] == state:
+                    break
+            except:
                 break
         
         # filter data
@@ -415,7 +420,7 @@ def server(input, output, session):
                 lon = location.longitude
                 # Normally use time.sleep() instead, but it doesn't yet work in Pyodide.
                 # https://github.com/pyodide/pyodide/issues/2354
-            return L.Map(center=(lat, lon), zoom=10, scroll_wheel_zoom=True, dragging=True)
+            return L.Map(center=(lat, lon), zoom=7, scroll_wheel_zoom=True, dragging=True)
 
 
 
@@ -468,10 +473,11 @@ def server(input, output, session):
         '''
         with ui.Progress(min=1, max=5) as p:
             p.set(message="Calculation in progress", detail="This may take a while...")
+            
+            zip = input.zip()
 
             for i in range(1, 5):
                 rent = rent_df
-                zip = input.zip()
                 
                 # get the 'City' value for the input zip code
              
@@ -521,7 +527,6 @@ def server(input, output, session):
         city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
         state = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['State'].values[0]
 
-        print(city)
         calc_top_three_cities()
         print('Determining Goals')
         if input.goal() == 'Buy a home':
