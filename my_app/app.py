@@ -29,6 +29,8 @@ wages_df = pd.read_csv('./Data/Clean/cln_wages.csv')
 rent_df = pd.read_csv('./Data/Clean/rent.csv')
 housing_df = pd.read_csv('./Data/housing.csv')
 ind_series = wages_df['OCC_TITLE'].values.tolist()
+ind_series = sorted(ind_series)
+
 
 ###### Create App ######
     
@@ -39,7 +41,7 @@ app_ui = ui.page_fluid(
     # the navbar will also have a slider that will be used to change the size of the plots
     #Row tells shiny that these UI elements should be next to eachother horizontally.
     ui.row(
-        ui.page_navbar(*nav_controls("page_navbar"), title="Capstone", bg="#0062cc", inverse=True, id="navbar_id",
+        ui.page_navbar(*nav_controls("page_navbar"), title="Where Should I Live?", bg="#0062cc", inverse=True, id="navbar_id",
     footer=ui.div(
     ui.row(
             ui.column(4, output_widget("map")),
@@ -58,7 +60,7 @@ app_ui = ui.page_fluid(
         ui.input_numeric("zip", "Current Zip Code", 85701, min=10000, max=99999, width='20%'),
         ui.input_numeric("rent", "Rent", 945, min=0, max=10000, width='20%'),
         ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "1BR", "2BR", "3BR", "4BR"], width='20%'),
-        ui.input_slider("dis", "Distance", value=1, min=1, max=500, step=50, post="mi", width='20%'),
+        ui.input_slider("dis", "Distance", value=200, min=1, max=2900, step=50, post="mi", width='20%'),
         ui.input_checkbox_group("checkbox_item", "Nationwide?", choices=["Yes"], width='10%'),
         ui.output_ui("ui_select"),
     ),
@@ -72,48 +74,10 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
     zip_df = rent_df[['ZIP Code', 'City', 'State']]
+    print(zip_df)
     housing_costs = housing_df[['Metro', '2020-09-30']]
 
     ###### Calc Functions ########
-    @reactive.Calc
-    def determine_distance_by_zipcode(zip1, zip2):
-        geolocator = Nominatim(user_agent="my_app")
-        location1 = geolocator.geocode(zip1)
-        location2 = geolocator.geocode(zip2)
-        miles = geodesic((location1.latitude, location1.longitude), (location2.latitude, location2.longitude)).miles
-        if miles <= input.dis():
-            return [zip2]
-        else:
-            return []
-
-    @reactive.Calc
-    def filter_cities_within_dis():
-        ''' 
-        filter the rent_df to only include cities within the distance
-        specified by the user. cities are determined by zipcode.
-        '''
-        zip = input.zip()
-        geolocator = Nominatim(user_agent="my_app")
-        location = geolocator.geocode(zip, addressdetails=True)
-        location = location.raw
-        city = location['address']['city']
-        state = location['address']['state']
-
-        df = rent_df[['ZIP Code', 'City', 'State']]
-        if city.startswith('City of '):
-            city = city.replace('City of ', '')
-
-        # find the first row where the zip_df['City'].contains city and zip_df['State'] == state
-        valid_zipcodes = []
-        for ind in df.index:
-            # get the distance between the user's zipcode and the zipcode in the dataframe
-            valid_zipcodes += determine_distance_by_zipcode(zip, df['ZIP Code'][ind])
-
-        # filter the rent_df to only include cities within the distance specified by the user
-        df = rent_df[rent_df['ZIP Code'].isin(valid_zipcodes)]
-        print("DATAFRAME:", df)
-        return df
-
     @reactive.Calc
     def filter_wages_by_industry():
         ''' 
@@ -125,23 +89,77 @@ def server(input, output, session):
             
     @reactive.Calc
     def calc_top_three_cities():
-        # get the filtered rent and wage dataframes
-        rent_df = filter_cities_within_dis()
+        '''
+        Determine the top 3 cities to move to based on the user's salary and the industry they work in
+        '''
+        # get the filtered wage dataframe
         wages_df = filter_wages_by_industry()
 
-        # filter the wages_df to only include the cities in the rent_df
-        wages_df = wages_df[wages_df['City'].isin(rent_df['City'])]
+        # order cities by 'Mean_Annual_wage' from highest to lowest
+        cities = wages_df[['City', 'State', 'Mean_Annual_wage']]
+        cities = cities.sort_values(by='Mean_Annual_wage', ascending=False)
 
-        # get the top three cities by 'Mean_Annual_wage'
-        top_three_cities = wages_df.sort_values(by='Mean_Annual_wage', ascending=False).head(3)
-        top_three_cities = top_three_cities[['City', 'State', 'Mean_Annual_wage']]
+        # get lat and lon of the inputted zip
+        zip = input.zip()
+        geolocator = Nominatim(user_agent="my_app")
+        loc1_city, _ = get_city_state_from_zip()
+        loc1_city = zip_df[zip_df['City'] == loc1_city]['City'].values[0]
+        loc1 = geolocator.geocode(zip, addressdetails=True)
+        loc1_lat, loc1_lon = loc1.latitude, loc1.longitude
+
+        print("ranking cities...")
+
+        # get the top 3 cities
+        eligible_cities = []
+        # backup list of lowest three distance cities in-case distance given is too small
+        lowest_three = []
+        # check every row of cities
+        for _, row in cities.iterrows():
+            # get the city value of this row
+            city = row['City']
+            try:
+                zip2 = zip_df[zip_df['City'] == city]['ZIP Code'].values[0]
+            except:
+                continue
+            loc2 = geolocator.geocode(zip2, addressdetails=True)
+            loc2_lat, loc2_lon = loc2.latitude, loc2.longitude
+            miles = geodesic((loc1_lat, loc1_lon), (loc2_lat, loc2_lon)).miles
+            if len(lowest_three) < 3:
+                lowest_three.append((city, miles))
+            elif miles < lowest_three[2][1]:
+                lowest_three[2] = (city, miles)
+                lowest_three = sorted(lowest_three, key=lambda x: x[1])
+            if miles <= input.dis():
+                print(city, ":", miles)
+                eligible_cities.append(city)
+            
+        if len(eligible_cities) < 3:
+            eligible_cities = [city for city, miles in lowest_three]
+
+        eligible_cities_df = cities[cities['City'].isin(eligible_cities)]
+        eligible_cities_df = eligible_cities_df[['City', 'State', 'Mean_Annual_wage']]
+        top_three_cities = eligible_cities_df.sort_values(by='Mean_Annual_wage', ascending=False).head(3)
+
+
+        print(top_three_cities)
+        top_three_cities = top_three_cities['City'].values
+        print("attempting to update...")
+
+        zip_a = zip_df[zip_df['City'] == top_three_cities[0]]['ZIP Code'].values[0]
+        zip_b = zip_df[zip_df['City'] == top_three_cities[1]]['ZIP Code'].values[0]
+        zip_c = zip_df[zip_df['City'] == top_three_cities[2]]['ZIP Code'].values[0]
+
+        # convert the zipcodes to native int
+        zip_a = int(zip_a)
+        zip_b = int(zip_b)
+        zip_c = int(zip_c)
         
-        if input.tab() == 'City A':
-            return top_three_cities.iloc[0]
-        elif input.tab() == 'City B':
-            return top_three_cities.iloc[1]
-        elif input.tab() == 'City C':
-            return top_three_cities.iloc[2]
+        if input.navbar_id() == 'City A':
+            return ui.update_numeric("zip", value=zip_a)
+        elif input.navbar_id() == 'City B':
+            return ui.update_numeric("zip", value=zip_b)
+        elif input.navbar_id() == 'City C':
+            return ui.update_numeric("zip", value=zip_c)
         return
 
     @reactive.Calc
@@ -200,7 +218,7 @@ def server(input, output, session):
         # payment on the mean housing price of the current tab city
         time = money_needed / (calc_disposable_income() * .1)
         time = round(time, 2)
-
+        print("home goal calculated!")
         return f"Your current savings will take {time} months to arrive at a 10% down payment on the mean housing price of {city}."
 
 
@@ -227,7 +245,7 @@ def server(input, output, session):
         # payment on the mean housing price of the current tab city
         time = money_needed / (calc_disposable_income() * .10)
         time = round(time, 2)
-
+        print("investment goal calculated!")
         return f"Your current savings will take {time} months to arrive at a 15% down payment on the mean housing price of {city}."
 
     @reactive.Calc
@@ -249,7 +267,7 @@ def server(input, output, session):
         total_interest = 0
         for i in range(months):
             total_interest += debt * (interest *.01)
-
+        print("debt goal calculated!")
         return f"By spending 10% of your disposable income on debt, you will pay off your debt in {months} months and spend {total_interest} on interest."
 
     @reactive.Calc
@@ -408,7 +426,7 @@ def server(input, output, session):
 
             for i in range(1, 5):
                 rent = rent_df
-                zip = str(input.zip())
+                zip = input.zip()
                 
                 # get the 'City' value for the input zip code
                 city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
@@ -454,14 +472,16 @@ def server(input, output, session):
         city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
         state = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['State'].values[0]
 
+        print(city)
+
+        calc_top_three_cities()
+
         if input.goal() == 'Buy a home':
             goal = calc_buy_a_home()
         elif input.goal() == 'Improve Quality of Life':
             goal = calc_improve_qol()
         elif input.goal() == 'Investment Property':
             goal = calc_investment_property()
-
-        calc_top_three_cities()
 
         out = f"Ideal City: {city}, {state}\n"+ \
                 f"Estimated Salary: ${calc_estimated_salary()}\n" + \
