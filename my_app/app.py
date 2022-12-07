@@ -1,3 +1,4 @@
+from ast import IsNot
 import difflib
 from logging import PlaceHolder
 import math
@@ -105,33 +106,31 @@ def server(input, output, session):
         loc1 = geolocator.geocode(zip, addressdetails=True)
         loc1_lat, loc1_lon = loc1.latitude, loc1.longitude
 
-        if input.checkbox_item() != "Yes":
+        print("ranking cities...")
 
-            print("ranking cities...")
-
-            # get the top 3 cities
-            eligible_cities = []
-            # backup list of lowest three distance cities in-case distance given is too small
-            lowest_three = []
-            # check every row of cities
-            for _, row in cities.iterrows():
-                # get the city value of this row
-                city = row['City']
-                try:
-                    zip2 = zip_df[zip_df['City'] == city]['ZIP Code'].values[0]
-                except:
-                    continue
-                loc2 = geolocator.geocode(zip2, addressdetails=True)
-                loc2_lat, loc2_lon = loc2.latitude, loc2.longitude
-                miles = geodesic((loc1_lat, loc1_lon), (loc2_lat, loc2_lon)).miles
-                if len(lowest_three) < 3:
-                    lowest_three.append((city, miles))
-                elif miles < lowest_three[2][1]:
-                    lowest_three[2] = (city, miles)
-                    lowest_three = sorted(lowest_three, key=lambda x: x[1])
-                if miles <= input.dis():
-                    print(city, ":", miles)
-                    eligible_cities.append(city)
+        # get the top 3 cities
+        eligible_cities = []
+        # backup list of lowest three distance cities in-case distance given is too small
+        lowest_three = []
+        # check every row of cities
+        for _, row in cities.iterrows():
+            # get the city value of this row
+            city = row['City']
+            try:
+                zip2 = zip_df[zip_df['City'] == city]['ZIP Code'].values[0]
+            except:
+                continue
+            loc2 = geolocator.geocode(zip2, addressdetails=True)
+            loc2_lat, loc2_lon = loc2.latitude, loc2.longitude
+            miles = geodesic((loc1_lat, loc1_lon), (loc2_lat, loc2_lon)).miles
+            if len(lowest_three) < 3:
+                lowest_three.append((city, miles))
+            elif miles < lowest_three[2][1]:
+                lowest_three[2] = (city, miles)
+                lowest_three = sorted(lowest_three, key=lambda x: x[1])
+            if miles <= input.dis():
+                print(city, ":", miles)
+                eligible_cities.append(city)
             
         if len(eligible_cities) < 3:
             eligible_cities = [city for city, miles in lowest_three]
