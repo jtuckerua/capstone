@@ -5,6 +5,7 @@ from tkinter import CENTER
 from turtle import width
 from shiny import App, render, ui, reactive, Outputs
 from shinywidgets import output_widget, register_widget, reactive_read, render_widget
+from shiny.types import SilentException
 import asyncio
 import ipyleaflet as L
 import matplotlib.pyplot as plt
@@ -21,9 +22,9 @@ def nav_controls(prefix):
     return []
 
 ###### Load data ######
-wages_df = pd.read_csv('./Data/Clean/cln_wages.csv')
-rent_df = pd.read_csv('./Data/Clean/rent.csv')
-housing_df = pd.read_csv('./Data/housing.csv')
+rent_df = pd.read_csv('C:\\Users\\andre\\Desktop\\Classes\\capstone\\my_app\\Data\\Clean\\rent.csv')
+wages_df = pd.read_csv('C:\\Users\\andre\\Desktop\\Classes\\capstone\\my_app\\Data\\Clean\\cln_wages.csv')
+housing_df = pd.read_csv('C:\\Users\\andre\\Desktop\\Classes\\capstone\\my_app\\Data\\Clean\\housing.csv')
 ind_series = wages_df['OCC_TITLE'].values.tolist()
 ind_series = sorted(ind_series)
 
@@ -53,7 +54,7 @@ app_ui = ui.page_fluid(
         ui.input_numeric("age", "Age", 18, min=1, max=100, width='10%'),
     ),
     ui.row(
-        ui.input_numeric("zip", "Current Zip Code", 85701, min=10000, max=99999, width='20%'),
+        ui.input_numeric("zip", "Current Zip Code", 0, min=10000, max=99999, width='20%'),
         ui.input_numeric("rent", "Rent", 945, min=0, max=10000, width='20%'),
         ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "1BR", "2BR", "3BR", "4BR"], width='20%'),
         ui.input_slider("dis", "Distance", value=300, min=1, max=2900, step=50, post="mi", width='20%'),
@@ -61,6 +62,7 @@ app_ui = ui.page_fluid(
         ui.output_ui("ui_select"),
     ),
     ui.row(
+        ui.input_action_button("predict","Predict"),
         ui.p(
         ui.output_text_verbatim("out"),
     ),
@@ -430,6 +432,7 @@ def server(input, output, session):
                 zip = input.zip()
                 
                 # get the 'City' value for the input zip code
+             
                 city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
 
                 bedrooms = input.bedrooms()
@@ -462,14 +465,15 @@ def server(input, output, session):
             ui.remove_ui(selector="div:has(> #int)")
             return
         
-    @reactive.Effect
     @output
     @render.text
+    @reactive.event(lambda: input.predict, ignore_none=False)
     def out():
         '''
         This function will create a text box that will show the user's specific calculations
         '''
         zip = str(input.zip())
+        
         # get the 'City' value for the input zip code
         city = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['City'].values[0]
         state = zip_df.loc[zip_df['ZIP Code'] == int(zip)]['State'].values[0]
