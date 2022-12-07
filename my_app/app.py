@@ -23,9 +23,9 @@ def nav_controls(prefix):
     return []
 
 ###### Load data ######
-rent_df = pd.read_csv('C:\\Users\\andre\\Desktop\\Classes\\capstone\\my_app\\Data\\Clean\\rent.csv')
-wages_df = pd.read_csv('C:\\Users\\andre\\Desktop\\Classes\\capstone\\my_app\\Data\\Clean\\cln_wages.csv')
-housing_df = pd.read_csv('C:\\Users\\andre\\Desktop\\Classes\\capstone\\my_app\\Data\\Clean\\housing.csv')
+rent_df = pd.read_csv('./Data/Clean/rent.csv')
+wages_df = pd.read_csv('./Data/Clean/cln_wages.csv')
+housing_df = pd.read_csv('./Data/Clean/housing.csv')
 ind_series = wages_df['OCC_TITLE'].values.tolist()
 ind_series = sorted(ind_series)
 
@@ -59,7 +59,6 @@ app_ui = ui.page_fluid(
         ui.input_numeric("rent", "Rent", 945, min=0, max=10000, width='20%'),
         ui.input_select("bedrooms", "Number of Bedrooms", ["Studio", "1BR", "2BR", "3BR", "4BR"], width='20%'),
         ui.input_slider("dis", "Distance", value=300, min=1, max=2900, step=50, post="mi", width='20%'),
-        ui.input_checkbox_group("checkbox_item", "Nationwide?", choices=["Yes"], width='10%'),
         ui.output_ui("ui_select"),
         ui.input_action_button("predict","Predict"),
     ),
